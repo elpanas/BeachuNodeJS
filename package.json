@@ -1,0 +1,14 @@
+{
+  "name": "beachu-node-js",
+  "version": "0.1.0",
+  "description": "BeachuNodeJS",
+  "main": "server.js",
+  "author": {
+    "name": "Luca Panariello"
+  },
+  "dependencies": {
+    "@hapi/joi": "^16.1.8",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.9"
+  }
+}
