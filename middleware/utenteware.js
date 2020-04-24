@@ -71,10 +71,10 @@ async function updateUtente(idu, dati_utente) {
 function validateUtente(utente) {
     // Se esiste valida l'input
     const schema = Joi.object({
-        nome: Joi.string.required,
-        cognome: Joi.string.required,
-        username: Joi.string.required,
-        password: Joi.string.required    
+        nome: Joi.string.required(),
+        cognome: Joi.string.required(),
+        username: Joi.string.required(),
+        password: Joi.string.required()    
     });
 
     return schema.validate(utente);
