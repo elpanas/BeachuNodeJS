@@ -77,7 +77,12 @@ function validateUtente(utente) {
         password: Joi.string.required   
     });
 
-    return schema.validate(utente);
+    return schema.validate({
+        nome: utente.nome,
+        cognome: utente.cognome,
+        username: utente.username,
+        password: utente.password
+    });
 }
 
 module.exports.createUtente = createUtente;
