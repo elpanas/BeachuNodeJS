@@ -9,9 +9,7 @@ async function createUtente(dati_utente) {
         nome: dati_utente.nome,
         cognome: dati_utente.cognome,
         username: dati_utente.username,
-        password: dati_utente.password,
-        telefono: dati_utente.telefono,
-        email: dati_utente.email       
+        password: dati_utente.password 
     })
 
     // salvataggio nel db
@@ -31,7 +29,7 @@ async function getUtente(id) {
 async function getLogin(auth) {
 
     var tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    var buf = new Buffer(tmp[1], 'base64'); // creo un buffer e lo avviso che l'input è in base64
+    var buf = new Buffer(tmp[1], 'base64'); // creo un buffer e lo avviso che l'input Ã¨ in base64
     var plain_auth = buf.toString();        // converto l'input in stringa 
 
     // At this point plain_auth = "username:password"
@@ -62,9 +60,7 @@ async function updateUtente(idu, dati_utente) {
             nome: dati_utente.nome,
             cognome: dati_utente.cognome,
             username: dati_utente.username,
-            password: dati_utente.password,
-            telefono: dati_utente.telefono,
-            email: dati_utente.email
+            password: dati_utente.password
         }
     }, { new: true });
 
@@ -78,9 +74,7 @@ function validateUtente(utente) {
         nome: Joi.string.required,
         cognome: Joi.string.required,
         username: Joi.string.required,
-        password: Joi.string.required,
-        telefono: Joi.string,
-        email: Joi.string        
+        password: Joi.string.required    
     });
 
     return schema.validate(utente);
