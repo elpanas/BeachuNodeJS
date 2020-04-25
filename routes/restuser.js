@@ -34,8 +34,8 @@ router.get('/login', (req, res) => {
 // CREATE
 // inserisce i dati di un utente
 router.post('/', (req, res) => {
-    const { error } = validateUtente(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    /* const { error } = validateUtente(req.body);
+    if (error) return res.status(400).send(error.details[0].message); */
     createUtente(req.body)
         .then(() => { res.status(200).send() })
         .catch(() => { res.status(400).send("Error") })
