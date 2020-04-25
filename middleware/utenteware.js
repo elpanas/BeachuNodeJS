@@ -1,4 +1,3 @@
-// const Joi = require('@hapi/joi');
 const { Utente } = require('../models/utente');
 
 // INSERISCE UTENTE
