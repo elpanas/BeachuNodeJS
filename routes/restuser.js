@@ -32,9 +32,7 @@ router.get('/login', (req, res) => {
 
 // CREATE
 // inserisce i dati di un utente
-router.post('/', (req, res) => {
-    /* const { error } = validateUtente(req.body);
-    if (error) return res.status(400).send(error.details[0].message); */
+router.post('/', (req, res) => {    
     createUtente(req.body)
         .then(() => { res.status(200).send() })
         .catch(() => { res.status(400).send("Error") })
@@ -43,9 +41,7 @@ router.post('/', (req, res) => {
 
 // UPDATE
 // aggiorna i dati di un utente
-router.put('/:id', (req, res) => {
-    /* const { error } = validateUtente(req.body);
-    if (error) return res.status(400).send(error.details[0].message); */
+router.put('/:id', (req, res) => {    
     updateUtente(req.params.id, req.body)
         .then(() => { res.status(200).send() })
         .catch(() => { res.status(404).send('The user with the given id was not found') })
