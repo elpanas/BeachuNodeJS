@@ -5,8 +5,7 @@ const { createStab,
         getStabGest,
         removeStab,
         updateStab,
-        updateUmbrellas,
-    validateStab } = require('../middleware/stabware');
+        updateUmbrellas } = require('../middleware/stabware');
 const router = express.Router();
 
 // READ
@@ -61,9 +60,7 @@ router.get('/:id', (req, res) => {
 
 // CREATE
 // inserisce i dati di uno stabilimento
-router.post('/', (req, res) => {
-    const { error } = validateStab(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+router.post('/', (req, res) => {    
     createStab(req.body)
         .then(() => { res.status(200).send() })
         .catch(() => { res.status(400).send("Error") })
@@ -79,9 +76,7 @@ router.put('/disp', (req, res) => {
 });
 
 // aggiorna i dati dello stabilimento
-router.put('/:id', (req, res) => {
-    const { error } = validateStab(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+router.put('/:id', (req, res) => {    
     updateStab(req.params.id, req.body)
         .then(() => { res.status(200).send() })
         .catch(() => { res.status(404).send('The establishement with the given id was not found') })
