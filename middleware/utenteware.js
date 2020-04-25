@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+// const Joi = require('@hapi/joi');
 const { Utente } = require('../models/utente');
 
 // INSERISCE UTENTE
@@ -68,6 +68,7 @@ async function updateUtente(idu, dati_utente) {
 }
 
 // VALIDAZIONE DI POST
+/*
 function validateUtente(utente) {
     // Se esiste valida l'input
     const schema = Joi.object({
@@ -83,11 +84,11 @@ function validateUtente(utente) {
         username: utente.username,
         password: utente.password
     });
-}
+} */
 
 module.exports.createUtente = createUtente;
 module.exports.getUtente = getUtente;
 module.exports.getLogin = getLogin;
 module.exports.removeUtente = removeUtente;
 module.exports.updateUtente = updateUtente;
-module.exports.validateUtente = validateUtente;
+// module.exports.validateUtente = validateUtente;
