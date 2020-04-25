@@ -1,4 +1,3 @@
-const Joi = require('@hapi/joi');
 const { Stabilimento } = require('../models/stabilimento');
 
 // INSERISCE STABILIMENTO
@@ -113,29 +112,6 @@ async function updateUmbrellas(ids, disp) {
 
     return stab;
 }
-
-// VALIDAZIONE DI POST
-function validateStab(stab) {
-    // Se esiste valida l'input
-    const schema = Joi.object({
-        nome: Joi.string.required,
-        localita: Joi.string.required,
-        provincia: Joi.string,
-        location: {
-            type: Joi.string,
-            coordinates: [Joi.number, Joi.number]
-        },
-        idu: Joi.number,
-        ombrelloni: Joi.number,
-        disponibili: Joi.number,
-        telefono: Joi.string,
-        email: Joi.string,
-        web: Joi.string
-    });
-
-    return schema.validate(stab);
-}
-
 module.exports.createStab = createStab;
 module.exports.getStab = getStab;
 module.exports.getStabDispLoc = getStabDispLoc;
@@ -144,4 +120,3 @@ module.exports.getStabGest = getStabGest;
 module.exports.removeStab = removeStab;
 module.exports.updateStab = updateStab;
 module.exports.updateUmbrellas = updateUmbrellas;
-module.exports.validateStab = validateStab;
