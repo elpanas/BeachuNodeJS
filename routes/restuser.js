@@ -2,8 +2,7 @@ const express = require('express');
 const { createUtente,
         getUtente,
         removeUtente,
-        updateUtente,
-        validateUtente } = require('../middleware/utenteware');
+        updateUtente } = require('../middleware/utenteware');
 const router = express.Router();
 
 // READ
@@ -45,8 +44,8 @@ router.post('/', (req, res) => {
 // UPDATE
 // aggiorna i dati di un utente
 router.put('/:id', (req, res) => {
-    const { error } = validateUtente(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    /* const { error } = validateUtente(req.body);
+    if (error) return res.status(400).send(error.details[0].message); */
     updateUtente(req.params.id, req.body)
         .then(() => { res.status(200).send() })
         .catch(() => { res.status(404).send('The user with the given id was not found') })
