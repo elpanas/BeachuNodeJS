@@ -3,32 +3,39 @@ const { Utente } = require('../models/utente');
 // INSERISCE UTENTE
 async function createUtente(dati_utente) {
 
-    // creazione dell'oggetto (o record) della collezione
-    const utente = new Utente({
+    // controlla che il documento non esista già
+    const userExists = Utente.exists({
         nome: dati_utente.nome,
-        cognome: dati_utente.cognome,
-        username: dati_utente.username,
-        password: dati_utente.password 
-    })
+        cognome: dati_utente.cognome
+    });
 
-    // salvataggio nel db
-    return result = await utente.save();
+    if (!userExists) {
+        // creazione dell'oggetto (o record) della collezione
+        const utente = new Utente({
+            nome: dati_utente.nome,
+            cognome: dati_utente.cognome,
+            username: dati_utente.username,
+            password: dati_utente.password
+        });
+
+        return await utente.save();
+    }    
+    
+    return false;
 }
 
 // RECUPERA UTENTE SINGOLO
-async function getUtente(id) {
+async function getUtente(id) {  
 
-    const utenti = await Utente
-        .find({ _id: id }) // criteri di ricerca   
-
-    return utenti;
+    // criteri di ricerca
+    return result = await Utente.findById(id) 
 }
 
 // LOGIN UTENTE
 async function getLogin(auth) {
 
     var tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    var buf = new Buffer(tmp[1], 'base64'); // creo un buffer e lo avviso che l'input Ã¨ in base64
+    var buf = new Buffer(tmp[1], 'base64'); // creo un buffer e lo avviso che l'input è in base64
     var plain_auth = buf.toString();        // converto l'input in stringa 
 
     // At this point plain_auth = "username:password"
@@ -46,12 +53,12 @@ async function getLogin(auth) {
     return utenti;
 }
 
-// RIMUOVE UNO STABILIMENTO
+// RIMUOVE UN UTENTE
 async function removeUtente(id) {
     return result = await home.Utente.deleteOne({ _id: id }); // elimina il record con questo id
 }
 
-// AGGIORNA INFO STABILIMENTO
+// AGGIORNA INFO UTENTE
 async function updateUtente(idu, dati_utente) {
 
     const utente = await Utente.update({ _id: idu }, {

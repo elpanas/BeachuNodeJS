@@ -32,10 +32,10 @@ router.get('/login', (req, res) => {
 
 // CREATE
 // inserisce i dati di un utente
-router.post('/', (req, res) => {    
+router.post('/', (req, res) => {
     createUtente(req.body)
         .then(() => { res.status(200).send() })
-        .catch(() => { res.status(400).send("Error") })
+        .catch(() => { res.status(400).send() })
 });
 // --------------------------------------------------------------------
 

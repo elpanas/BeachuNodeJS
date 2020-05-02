@@ -6,8 +6,9 @@
   "author": {
     "name": "Luca Panariello"
   },
-  "dependencies": {    
+  "dependencies": {
+    "@hapi/joi": "^16.1.8",
     "express": "^4.17.1",
-    "mongoose": "^5.9.9"
+    "mongoose": "^5.9.10"
   }
 }

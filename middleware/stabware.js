@@ -3,25 +3,34 @@ const { Stabilimento } = require('../models/stabilimento');
 // INSERISCE STABILIMENTO
 async function createStab(dati_stab) {
 
-    // creazione dell'oggetto (o record) della collezione
-    const stab = new Stabilimento({
+    const stabExist = Stabilimento.exists({
         nome: dati_stab.nome,
         localita: dati_stab.localita,
-        provincia: dati_stab.provincia,
-        location: {
-            type: "Point",
-            coordinates: [dati_stab.longitudine, dati_stab.latitudine]
-        },
-        idu: dati_stab.idu,
-        ombrelloni: dati_stab.ombrelloni,
-        disponibili: dati_stab.disponibili,
-        telefono: dati_stab.telefono,
-        email: dati_stab.email,
-        web: dati_stab.web
-    })
+        provincia: dati_stab.provincia
+    });
 
-    // salvataggio nel db
-    return result = await stab.save();
+    if (!stabExist) {
+    // creazione dell'oggetto (o record) della collezione
+        const stab = new Stabilimento({
+            nome: dati_stab.nome,
+            localita: dati_stab.localita,
+            provincia: dati_stab.provincia,
+            location: {
+                type: "Point",
+                coordinates: [dati_stab.longitudine, dati_stab.latitudine]
+            },
+            idu: dati_stab.idu,
+            ombrelloni: dati_stab.ombrelloni,
+            disponibili: dati_stab.disponibili,
+            telefono: dati_stab.telefono,
+            email: dati_stab.email,
+            web: dati_stab.web
+        });
+
+        return await stab.save();
+    }    
+
+    return false; 
 }
 
 // RECUPERA STABILIMENTO SINGOLO
@@ -112,6 +121,7 @@ async function updateUmbrellas(ids, disp) {
 
     return stab;
 }
+
 module.exports.createStab = createStab;
 module.exports.getStab = getStab;
 module.exports.getStabDispLoc = getStabDispLoc;

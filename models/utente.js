@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String, required: true
-    }   
+    }
 });
 
 // creazione della collezione sulla base dello schema
