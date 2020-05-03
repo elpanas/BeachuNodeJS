@@ -6,7 +6,7 @@ const { createUtente,
 const router = express.Router();
 
 // READ
-// utente singolo
+/* utente singolo
 router.get('/:id', (req, res) => {
     getUtente(req.params.id)
         .then(result => {
@@ -16,10 +16,10 @@ router.get('/:id', (req, res) => {
                 res.status(404).send('User was not found');
         })
         .catch(() => { res.status(404).send('User was not found') })
-});
+});*/
 
 // login
-router.get('/login/', (req, res) => {
+router.get('/login', (req, res) => {
     getLogin(req.headers["authorization"])
         .then((result) => {
             if (result)
