@@ -18,15 +18,16 @@ router.get('/:id', (req, res) => {
         .catch(() => { res.status(404).send('User was not found') })
 });
 
+// login
 router.get('/login', (req, res) => {
-    getLogin(req.headers["www-authenticate"])
-        .then(result => {
-            if (result.length > 0)
+    getLogin(req.headers['authorization'])
+        .then((result) => {
+            if (result)
                 res.status(200).send(result);
             else
-                res.status(403).send('Forbidden');
+                res.status(401).setHeader('WWW-Authenticate','Basic: "Area Riservata"').send();
         })
-        .catch(() => { res.status(404).send('User was not found') })
+        .catch(() => { res.status(404).send('Error') })
 });
 // --------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ router.get('/login', (req, res) => {
 // inserisce i dati di un utente
 router.post('/', (req, res) => {
     createUtente(req.body)
-        .then((result) => { if (result) res.status(200).send(); else res.status(400).send() })
+        .then((result) => { if (result) res.status(200).send(); else res.status(400).send(); })
         .catch(() => { res.status(400).send() })
 });
 // --------------------------------------------------------------------
