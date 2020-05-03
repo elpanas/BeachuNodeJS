@@ -34,15 +34,11 @@ async function getUtente(id) {
 // LOGIN UTENTE
 async function getLogin(auth) {
 
-    var tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    var buf = new Buffer(tmp[1], 'base64'); // creo un buffer e lo avviso che l'input è in base64
-    var plain_auth = buf.toString();        // converto l'input in stringa 
+    const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
+    const buf = Buffer.from(tmp, 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64
 
-    // At this point plain_auth = "username:password"
-
-    var creds = plain_auth.split(':');      // divido in base a ':' come fatto nell'app in Xamarin
-    var username = creds[0];    
-    var password = creds[1];
+    // At this point buf = "username:password"
+    const [username, password] = buf.split(':');      // divido in base a ':' come fatto nell'app in Xamarin
 
     const userExist = await Utente.exists({
         username: username,
