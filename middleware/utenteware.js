@@ -4,9 +4,10 @@ const { Utente } = require('../models/utente');
 async function createUtente(dati_utente) {
 
     // controlla che il documento non esista già
-    const userExists = Utente.exists({
+    const userExists = await Utente.exists({
         nome: dati_utente.nome,
-        cognome: dati_utente.cognome
+        cognome: dati_utente.cognome,
+        username: dati_utente.username
     });
 
     if (!userExists) {
@@ -18,6 +19,7 @@ async function createUtente(dati_utente) {
             password: dati_utente.password
         });
 
+        // salva il documento
         return await utente.save();
     }    
     
@@ -26,9 +28,7 @@ async function createUtente(dati_utente) {
 
 // RECUPERA UTENTE SINGOLO
 async function getUtente(id) {  
-
-    // criteri di ricerca
-    return result = await Utente.findById(id) 
+    return await Utente.findById(id);
 }
 
 // LOGIN UTENTE
@@ -44,18 +44,24 @@ async function getLogin(auth) {
     var username = creds[0];    
     var password = creds[1];
 
-    const utenti = await Utente
-        .find({
+    const userExist = await Utente.exists({
+        username: username,
+        password: password
+    }) // criteri di ricerca 
+
+    if (userExist) {
+        return await Utente.findOne({
             username: username,
             password: password
-        }) // criteri di ricerca   
+        }) // criteri di ricerca  
+    }
 
-    return utenti;
+    return false;
 }
 
 // RIMUOVE UN UTENTE
 async function removeUtente(id) {
-    return result = await home.Utente.deleteOne({ _id: id }); // elimina il record con questo id
+    return result = await Utente.deleteOne({ _id: id }); // elimina il record con questo id
 }
 
 // AGGIORNA INFO UTENTE
