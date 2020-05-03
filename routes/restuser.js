@@ -1,6 +1,7 @@
 const express = require('express');
 const { createUtente,
         getUtente,
+        getLogin,
         removeUtente,
         updateUtente } = require('../middleware/utenteware');
 const router = express.Router();
