@@ -19,7 +19,7 @@ router.get('/:id', (req, res) => {
 });
 
 // login
-router.get('/login', (req, res) => {
+router.get('/login/', (req, res) => {
     getLogin(req.headers.authorization)
         .then((result) => {
             if (result)
@@ -27,7 +27,7 @@ router.get('/login', (req, res) => {
             else
                 res.status(401).setHeader('WWW-Authenticate','Basic: "Area Riservata"').send();
         })
-        .catch(() => { res.status(401).send('Forbidden'); })
+        .catch(() => { res.status(401).setHeader('WWW-Authenticate','Basic: "Area Riservata"').send(); })
 });
 // --------------------------------------------------------------------
 
