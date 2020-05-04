@@ -28,7 +28,7 @@ router.get('/login', (req, res) => {
             else
                 res.status(401).setHeader('WWW-Authenticate','Basic: "Area Riservata"').send();
         })
-        .catch(() => { res.status(401).setHeader('WWW-Authenticate','Basic: "Area Riservata"').send(); })
+        .catch(() => { res.status(401).send('Error'); })
 });
 // --------------------------------------------------------------------
 
