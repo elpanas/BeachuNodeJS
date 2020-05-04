@@ -23,10 +23,10 @@ router.get('/:id', (req, res) => {
 router.get('/login', (req, res) => {
     getLogin(req.get('Authorization'))
         .then((result) => {
-            if (result)
-                res.status(200).send(result);
-            else
+            if (!result)
                 res.status(401).set('WWW-Authenticate','Basic: "Area Riservata"').send();
+            else
+                res.status(200).send(result);
         })
         .catch(() => { res.status(401).send('Error'); })
 });
