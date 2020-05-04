@@ -3,7 +3,7 @@ const { Utente } = require('../models/utente');
 // INSERISCE UTENTE
 async function createUtente(dati_utente) {
 
-    // controlla che il documento non esista gi‡
+    // controlla che il documento non esista gi√†
     const userExists = await Utente.exists({
         nome: dati_utente.nome,
         cognome: dati_utente.cognome,
@@ -35,7 +35,7 @@ async function getUtente(id) {
 async function getLogin(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    const buf = Buffer.from(tmp, 'base64').toString(); // creo un buffer e lo avviso che l'input Ë in base64
+    const buf = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input √® in base64
 
     // At this point buf = "username:password"
     const [username, password] = buf.split(':');      // divido in base a ':' come fatto nell'app in Xamarin
@@ -46,10 +46,10 @@ async function getLogin(auth) {
     }) // criteri di ricerca 
 
     if (userExist) {
-        return await Utente.findOne({
+        return await Utente.findOne({            
             username: username,
             password: password
-        }) // criteri di ricerca  
+        }) // criteri di ricerca           
     }
 
     return false;
