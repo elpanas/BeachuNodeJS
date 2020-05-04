@@ -21,7 +21,7 @@ router.get('/:id', (req, res) => {
 
 // login
 router.get('/login', (req, res) => {
-    getLogin(req.headers["authorization"])
+    getLogin(req.getHeader['Authorization'])
         .then((result) => {
             if (result)
                 res.status(200).send(result);
