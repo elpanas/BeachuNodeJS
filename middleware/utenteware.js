@@ -38,7 +38,7 @@ async function getLogin(auth) {
     const buf = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64 */
 
     // At this point buf = "username:password"
-    const [username, password] = buf.split(':');      // divido in base a ':' come fatto nell'app in Xamarin
+    const [username, password] = auth.split(':');      // divido in base a ':' come fatto nell'app in Xamarin
 
     const userExist = await Utente.exists({
         username: username,
