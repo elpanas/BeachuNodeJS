@@ -46,10 +46,12 @@ async function getLogin(auth) {
     }) // criteri di ricerca 
 
     if (userExist) {
-        return await Utente.findOne({            
+        const result = await Utente.findOne({            
             username: username,
             password: password
-        }) // criteri di ricerca           
+        }) // criteri di ricerca      
+        
+        return JSON.stringify({ 'Id': result._id });
     }
 
     return false;
