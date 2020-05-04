@@ -21,12 +21,12 @@ router.get('/:id', (req, res) => {
 
 // login
 router.get('/login', (req, res) => {
-    getLogin(req.getHeader['Authorization'])
+    getLogin(req.get('Authorization'))
         .then((result) => {
             if (result)
                 res.status(200).send(result);
             else
-                res.status(401).setHeader('WWW-Authenticate','Basic: "Area Riservata"').send();
+                res.status(401).set('WWW-Authenticate','Basic: "Area Riservata"').send();
         })
         .catch(() => { res.status(401).send('Error'); })
 });
