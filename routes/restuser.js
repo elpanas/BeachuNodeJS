@@ -26,7 +26,7 @@ router.get('/login', (req, res) => {
             if (!result)
                 res.status(401).set('WWW-Authenticate','Basic: "Area Riservata"').send();
             else
-                res.status(200).send(result);
+                res.status(200).set('Content-type','application/json').send(result);
         })
         .catch(() => { res.status(401).send('Error'); })
 });
