@@ -51,7 +51,7 @@ async function getLogin(auth) {
             password: password
         }) // criteri di ricerca      
         
-        return JSON.stringify({ 'Id': result._id });
+        return result._id;
     }
 
     return false;
