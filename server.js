@@ -4,7 +4,11 @@ const reststab = require('./routes/reststab'); // percorso dello script a cui re
 const restuser = require('./routes/restuser'); // percorso dello script a cui reindirizzare le richieste
 const app = express();
 
+mongoose.set('useCreateIndex', true); // obbliga mongoose a usare CreateIndex (nuovo) invece di ensureIndexis
+
 const url = process.env.MONGODB_URI; // stringa di connessione al db remoto
+
+
 
 app.use(express.json()); // built-in middleware
 
