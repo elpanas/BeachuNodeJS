@@ -3,11 +3,14 @@ const { Utente } = require('../models/utente');
 // INSERISCE UTENTE
 async function createUtente(dati_utente) {
 
-    // controlla che il documento non esista gi√†
+    const user = Buffer.from(dati_utente.username, 'base64').toString();
+    const psw = Buffer.from(dati_utente.password, 'base64').toString();
+
+    // controlla che il documento non esista gi‡
     const userExists = await Utente.exists({
         nome: dati_utente.nome,
-        cognome: dati_utente.cognome,
-        username: dati_utente.username
+        cognome: dati_utente.cognome,        
+        username: user
     });
 
     if (!userExists) {
@@ -15,8 +18,9 @@ async function createUtente(dati_utente) {
         const utente = new Utente({
             nome: dati_utente.nome,
             cognome: dati_utente.cognome,
-            username: dati_utente.username,
-            password: dati_utente.password
+            email: dati_utente.email,
+            username: user,
+            password: psw
         });
 
         // salva il documento
@@ -35,7 +39,7 @@ async function getUtente(id) {
 async function getLogin(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    const buf = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input √® in base64
+    const buf = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input Ë in base64    
 
     // At this point buf = "username:password"
     const [username, password] = buf.split(':');      // divido in base a ':' come fatto nell'app in Xamarin
@@ -46,12 +50,12 @@ async function getLogin(auth) {
     }) // criteri di ricerca 
 
     if (userExist) {
-        const result = await Utente.findOne({            
+        const result = await Utente.findOne({
             username: username,
             password: password
-        }) // criteri di ricerca      
-        
-        return result._id;
+        }) // criteri di ricerca         
+
+        return result._id
     }
 
     return false;
@@ -69,6 +73,7 @@ async function updateUtente(idu, dati_utente) {
         $set: {
             nome: dati_utente.nome,
             cognome: dati_utente.cognome,
+            email: dati_utente.email,
             username: dati_utente.username,
             password: dati_utente.password
         }
@@ -77,8 +82,17 @@ async function updateUtente(idu, dati_utente) {
     return utente;
 }
 
+async function checkUtente(auth) {
+
+    const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
+    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input Ë in base64       
+    
+    return await Utente.exists({ _id: idu }) // criteri di ricerca 
+}
+
 module.exports.createUtente = createUtente;
 module.exports.getUtente = getUtente;
 module.exports.getLogin = getLogin;
 module.exports.removeUtente = removeUtente;
 module.exports.updateUtente = updateUtente;
+module.exports.checkUtente = checkUtente;
