@@ -35,29 +35,23 @@ async function createStab(dati_stab) {
 
 // RECUPERA STABILIMENTO SINGOLO
 async function getStab(id) {
-
-    const stabs = await Stabilimento
-        .find({ _id: id }) // criteri di ricerca   
-
-    return stabs;
+    return await Stabilimento.findById(id) // criteri di ricerca   
 }
 
 // CERCA STABILIMENTI DISPONIBILI PER LUOGO
 async function getStabDispLoc(loc, prov) {
 
-    const stabs = await Stabilimento
+    return await Stabilimento
         .find({ disponibili: { $gt: 0 } }, // i disponibili devono essere maggiori di 0
               { localita: loc, provincia: prov }) // criteri di ricerca          
         .sort({ disponibili: 1, nome: 1 }) // ordine asc 
         .limit(20);
-
-    return stabs;
 }
 
 // CERCA STABILIMENTI DISPONIBILI PER COORDINATE
 async function getStabDispCoord(long, lat) {
 
-    const stabs = await Stabilimento
+    return await Stabilimento
         .find({ disponibili: { $gt: 0 } }, // i disponibili devono essere maggiori di 0
               {
                   $geoNear: {
@@ -67,29 +61,24 @@ async function getStabDispCoord(long, lat) {
               }) // criteri di ricerca 
         .sort({ disponibili: 1, nome: 1 }) // ordine asc 
         .limit(20);
-
-    return stabs;
 }
 
 // CERCA STABILIMENTI DI UN GESTORE
 async function getStabGest(id) {
-
-    const stabs = await Stabilimento
+    return await Stabilimento
         .find({ idg: id }) // criteri di ricerca          
         .sort({ nome: 1 }) // ordine asc
-
-    return stabs;
 }
 
 // RIMUOVE UNO STABILIMENTO
 async function removeStab(id) {
-    return result = await home.Stabilimento.deleteOne({ _id: id }); // elimina il record con questo id
+    return await home.Stabilimento.deleteOne({ _id: id }); // elimina il record con questo id
 }
 
 // AGGIORNA INFO STABILIMENTO
 async function updateStab(ids, dati_stab) {
 
-    const stab = await Stabilimento.update({ _id: ids }, {
+    return await Stabilimento.update({ _id: ids }, {
         $set: {
             nome: dati_stab.nome,
             localita: dati_stab.localita,
@@ -106,20 +95,16 @@ async function updateStab(ids, dati_stab) {
             web: dati_stab.web
         }
     }, { new: true });
-
-    return stab;
 }
 
 // AGGIORNA IL NUMERO DI OMBRELLONI
 async function updateUmbrellas(ids, disp) {
 
-    const stab = await Stabilimento.findByIdAndUpdate({ _id: ids }, {
+    return await Stabilimento.findByIdAndUpdate({ _id: ids }, {
         $set: {
             disponibili: disp
         }
     }, { new: true });
-
-    return stab;
 }
 
 module.exports.createStab = createStab;
