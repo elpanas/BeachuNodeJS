@@ -8,7 +8,10 @@ const stabSchema = new mongoose.Schema({
     localita: String,
     provincia: String,
     location: {
-        type: String,
+        type: {
+            type: String, // Don't do `{ location: { type: String } }`
+            enum: ['Point'] // 'location.type' must be 'Point'            
+        },
         coordinates: [Number]
     },
     ombrelloni: {
