@@ -3,6 +3,7 @@ const { createStab,
         getStabDispLoc,
         getStabDispCoord,
         getStabGest,
+        getStab,
         removeStab,
         updateStab,
     updateUmbrellas } = require('../middleware/stabware');
