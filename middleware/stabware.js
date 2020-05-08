@@ -20,7 +20,7 @@ async function createStab(dati_stab) {
                 coordinates: [dati_stab.longitudine, dati_stab.latitudine]
             },            
             ombrelloni: dati_stab.ombrelloni,
-            disponibili: dati_stab.disponibili,
+            disponibili: dati_stab.ombrelloni,
             idutente: dati_stab.idu,
             telefono: dati_stab.telefono,
             email: dati_stab.mail,
