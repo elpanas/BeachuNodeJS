@@ -70,7 +70,7 @@ async function getStabGest(auth) {
     const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64  
 
     return await Stabilimento
-        .find({ idg: idu }) // criteri di ricerca          
+        .find({ idutente: idu }) // criteri di ricerca          
         .sort({ nome: 1 }) // ordine asc
 }
 
