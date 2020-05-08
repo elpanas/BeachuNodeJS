@@ -3,7 +3,7 @@ const { Stabilimento } = require('../models/stabilimento');
 // INSERISCE STABILIMENTO
 async function createStab(dati_stab) {
 
-    const stabExist = Stabilimento.exists({
+    const stabExist = await Stabilimento.exists({
         nome: dati_stab.nome,
         localita: dati_stab.localita,
         provincia: dati_stab.provincia
@@ -67,7 +67,7 @@ async function getStabDispCoord(long, lat) {
 async function getStabGest(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64  
+    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input Ã¨ in base64  
 
     return await Stabilimento
         .find({ idg: idu }) // criteri di ricerca          
