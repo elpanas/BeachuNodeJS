@@ -21,7 +21,7 @@ const stabSchema = new mongoose.Schema({
         type: Number, default: 0
     },
     idutente: {
-        type: Number, required: true
+        type: String, required: true
     },
     telefono: String,
     email: String,
