@@ -17,7 +17,7 @@ const stabSchema = new mongoose.Schema({
     disponibili: {
         type: Number, default: 0
     },
-    telefono: Number,
+    telefono: String,
     email: String,
     web: String
 });
