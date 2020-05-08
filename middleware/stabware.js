@@ -64,9 +64,13 @@ async function getStabDispCoord(long, lat) {
 }
 
 // CERCA STABILIMENTI DI UN GESTORE
-async function getStabGest(id) {
+async function getStabGest(auth) {
+
+    const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
+    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64  
+
     return await Stabilimento
-        .find({ idg: id }) // criteri di ricerca          
+        .find({ idg: idu }) // criteri di ricerca          
         .sort({ nome: 1 }) // ordine asc
 }
 

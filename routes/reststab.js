@@ -35,9 +35,9 @@ router.get('/disp/coord/:long/:lat', (req, res) => {
 });
 
 // stabilimenti di un gestore
-router.get('/gest/:id', (req, res) => {
+router.get('/gest', (req, res) => {
     if (checkUtente(req.get('Authorization'))) {
-        getStabGest(req.params.id)
+        getStabGest(req.get('Authorization'))
             .then((result) => {
                 if (result.length > 0)
                     res.send(result);
