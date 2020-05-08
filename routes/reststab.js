@@ -69,7 +69,7 @@ router.post('/', (req, res) => {
     if (checkUtente(req.get('Authorization'))) {
         createStab(req.body)
             .then(() => { res.status(200).send() })
-            .catch(() => { res.status(400).send("Error") })
+            .catch((err) => { res.status(400).send(err) })
     }
     else
         res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
