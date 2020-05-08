@@ -18,10 +18,10 @@ async function createStab(dati_stab) {
             location: {
                 type: "Point",
                 coordinates: [dati_stab.longitudine, dati_stab.latitudine]
-            },
-            idu: dati_stab.idu,
+            },            
             ombrelloni: dati_stab.ombrelloni,
             disponibili: dati_stab.disponibili,
+            idutente: dati_stab.idu,
             telefono: dati_stab.telefono,
             email: dati_stab.mail,
             web: dati_stab.web
