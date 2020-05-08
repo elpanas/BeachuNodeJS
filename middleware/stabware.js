@@ -23,7 +23,7 @@ async function createStab(dati_stab) {
             ombrelloni: dati_stab.ombrelloni,
             disponibili: dati_stab.disponibili,
             telefono: dati_stab.telefono,
-            email: dati_stab.email,
+            email: dati_stab.mail,
             web: dati_stab.web
         });
 
