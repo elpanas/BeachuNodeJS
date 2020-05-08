@@ -63,7 +63,7 @@ async function getLogin(auth) {
 
 // RIMUOVE UN UTENTE
 async function removeUtente(id) {
-    return result = await Utente.deleteOne({ _id: id }); // elimina il record con questo id
+    return result = await Utente.findByIdAndDelete(id); // elimina il record con questo id
 }
 
 // AGGIORNA INFO UTENTE
