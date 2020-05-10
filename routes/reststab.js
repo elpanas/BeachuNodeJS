@@ -3,7 +3,6 @@ const { createStab,
         getStabDispLoc,
         getStabDispCoord,
         getStabGest,
-        getStab,
         removeStab,
         updateStab,
     updateUmbrellas } = require('../middleware/stabware');
@@ -55,7 +54,7 @@ router.get('/gest', (req, res) => {
 router.get('/:id', (req, res) => {
     getStab(req.params.id)
         .then((result) => {
-            if (result)
+            if (result.length > 0)
                 res.send(result);
             else
                 res.status(404).send('Bathing establishment was not found');

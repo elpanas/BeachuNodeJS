@@ -7,13 +7,15 @@ async function createUtente(dati_utente) {
     const psw = Buffer.from(dati_utente.password, 'base64').toString();
 
     // controlla che il documento non esista già
-    const userExists = await Utente.exists({
-        nome: dati_utente.nome,
-        cognome: dati_utente.cognome,        
-        username: user
-    });
+    const userExists = await Utente
+        .find({
+            nome: dati_utente.nome,
+            cognome: dati_utente.cognome,
+            username: user
+        })
+        .limit(1);
 
-    if (!userExists) {
+    if (userExists.length > 0) {
         // creazione dell'oggetto (o record) della collezione
         const utente = new Utente({
             nome: dati_utente.nome,
