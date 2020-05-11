@@ -3,14 +3,13 @@ const { Stabilimento } = require('../models/stabilimento');
 // INSERISCE STABILIMENTO
 async function createStab(dati_stab) {    
 
-    Stabilimento
-        .findOne({
-            nome: dati_stab.nome,
-            localita: dati_stab.localita,
-            provincia: dati_stab.provincia
-        }, (err,doc) => {
-            if (err) { return true; }
-        });
+    Stabilimento.findOne({
+        nome: dati_stab.nome,
+        localita: dati_stab.localita,
+        provincia: dati_stab.provincia
+    }, (err,doc) => {
+        if (err) { return true; }
+    });
 
     // creazione dell'oggetto (o record) della collezione
     const stab = new Stabilimento({
