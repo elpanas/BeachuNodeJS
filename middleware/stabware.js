@@ -8,8 +8,8 @@ async function createStab(dati_stab) {
             nome: dati_stab.nome,
             localita: dati_stab.localita,
             provincia: dati_stab.provincia
-        }, function (err) { 
-            if (!err)
+        }, function (err, docs) { 
+            if (docs != null)
                 return false;
         });
 
