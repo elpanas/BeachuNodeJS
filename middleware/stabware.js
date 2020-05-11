@@ -2,6 +2,8 @@ const { Stabilimento } = require('../models/stabilimento');
 
 // INSERISCE STABILIMENTO
 async function createStab(dati_stab) {
+    
+    const stabExist = false;
 
     await Stabilimento
         .findOne({
@@ -9,28 +11,33 @@ async function createStab(dati_stab) {
             localita: dati_stab.localita,
             provincia: dati_stab.provincia
         }, function (err, docs) { 
-            if (docs != null)
-                return false;
+            if (docs.length > 0)
+                stabExist = true;
         });
-
-    // creazione dell'oggetto (o record) della collezione
-    const stab = new Stabilimento({
-        nome: dati_stab.nome,
-        localita: dati_stab.localita,
-        provincia: dati_stab.provincia,
-        location: {
-            type: "Point",
-            coordinates: [dati_stab.longitudine, dati_stab.latitudine]
-        },
-        ombrelloni: dati_stab.ombrelloni,
-        disponibili: dati_stab.ombrelloni,
-        idutente: dati_stab.idu,
-        telefono: dati_stab.telefono,
-        email: dati_stab.mail,
-        web: dati_stab.web
-    });
-
-    return await stab.save();
+    
+    if (stabExist)
+    {    
+        // creazione dell'oggetto (o record) della collezione
+        const stab = new Stabilimento({
+            nome: dati_stab.nome,
+            localita: dati_stab.localita,
+            provincia: dati_stab.provincia,
+            location: {
+                type: "Point",
+                coordinates: [dati_stab.longitudine, dati_stab.latitudine]
+            },
+            ombrelloni: dati_stab.ombrelloni,
+            disponibili: dati_stab.ombrelloni,
+            idutente: dati_stab.idu,
+            telefono: dati_stab.telefono,
+            email: dati_stab.mail,
+            web: dati_stab.web
+        });
+        
+        return await stab.save();
+    }
+    else
+        return false;   
 }
 
 // RECUPERA STABILIMENTO SINGOLO
