@@ -1,17 +1,15 @@
 const { Stabilimento } = require('../models/stabilimento');
 
 // INSERISCE STABILIMENTO
-async function createStab(dati_stab) {    
+async function createStab(dati_stab) {  
 
-    var stabExist = false;
-    
-    await Stabilimento.findOne({
+    const stabExist = await Stabilimento
+    .find({
         nome: dati_stab.nome,
         localita: dati_stab.localita,
         provincia: dati_stab.provincia
-    }, (err,doc) => {
-        if (!err && doc) { stabExist = true; }
-    });
+    })
+    .limit(1);
     
     if (!stabExist) {
         // creazione dell'oggetto (o record) della collezione
