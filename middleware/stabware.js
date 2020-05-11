@@ -1,22 +1,19 @@
 const { Stabilimento } = require('../models/stabilimento');
 
 // INSERISCE STABILIMENTO
-async function createStab(dati_stab) {
-    
-    const stabExist = false;
+async function createStab(dati_stab) {    
 
-    await Stabilimento
-        .findOne({
+    var stabExist = await Stabilimento
+        .find({
             nome: dati_stab.nome,
             localita: dati_stab.localita,
             provincia: dati_stab.provincia
-        }, function (err, docs) { 
-            if (docs.length > 0)
-                stabExist = true;
-        });
-    
-    if (stabExist)
-    {    
+        })
+        .limit(1);
+
+    if (stabExist.length > 0)
+        return false;
+    else {
         // creazione dell'oggetto (o record) della collezione
         const stab = new Stabilimento({
             nome: dati_stab.nome,
@@ -33,11 +30,9 @@ async function createStab(dati_stab) {
             email: dati_stab.mail,
             web: dati_stab.web
         });
-        
+
         return await stab.save();
     }
-    else
-        return false;   
 }
 
 // RECUPERA STABILIMENTO SINGOLO
