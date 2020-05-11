@@ -3,7 +3,7 @@ const { Stabilimento } = require('../models/stabilimento');
 // INSERISCE STABILIMENTO
 async function createStab(dati_stab) {    
 
-    Stabilimento.findOne({
+    await Stabilimento.findOne({
         nome: dati_stab.nome,
         localita: dati_stab.localita,
         provincia: dati_stab.provincia
