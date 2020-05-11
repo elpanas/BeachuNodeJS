@@ -30,7 +30,6 @@ async function createStab(dati_stab) {
             email: dati_stab.mail,
             web: dati_stab.web
         });
-
         return await stab.save();
     }
     else
