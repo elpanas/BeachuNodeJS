@@ -9,7 +9,7 @@ async function createStab(dati_stab) {
             localita: dati_stab.localita,
             provincia: dati_stab.provincia
         }, function (err, docs) { 
-            if (docs)
+            if (docs != null)
                 return false;
         });
 
