@@ -8,7 +8,7 @@ async function createStab(dati_stab) {
         localita: dati_stab.localita,
         provincia: dati_stab.provincia
     }, (err,doc) => {
-        if (err) { return false; }
+        if (!err) { return false; }
     });
 
     // creazione dell'oggetto (o record) della collezione
