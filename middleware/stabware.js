@@ -32,8 +32,9 @@ async function getStab(id) {
 async function getStabDispLoc(loc, prov) {
 
     return await Stabilimento
-        .find({ disponibili: { $gt: 0 } }, // i disponibili devono essere maggiori di 0
-              { localita: loc, provincia: prov }) // criteri di ricerca          
+        .find({ disponibili: { $gt: 0 }, // i disponibili devono essere maggiori di 0
+                localita: loc, 
+                provincia: prov }) // criteri di ricerca          
         .sort({ disponibili: 1, nome: 1 }) // ordine asc 
         .limit(20);
 }
@@ -57,7 +58,7 @@ async function getStabDispCoord(long, lat) {
 async function getStabGest(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64  
+    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input Ã¨ in base64  
 
     return await Stabilimento
         .find({ idutente: idu }) // criteri di ricerca          
