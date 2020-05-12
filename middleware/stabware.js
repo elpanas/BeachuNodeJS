@@ -61,12 +61,10 @@ async function getStabGest(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
     const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64  
-
-    return idu;
     
-    /* await Stabilimento
+    return await Stabilimento
         .find({ idutente: idu }) // criteri di ricerca          
-        .sort({ nome: 1 }); // ordine asc */
+        .sort({ nome: 1 }); // ordine asc
 }
 
 // RIMUOVE UNO STABILIMENTO
