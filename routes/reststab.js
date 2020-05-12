@@ -44,7 +44,7 @@ router.get('/gest', (req, res) => {
                 else
                     res.status(404).send('Bathing establishments were not found');
             })
-            .catch(() => { res.status(404).send('Bathing establishments were not found') });
+            .catch(() => { res.status(400).send() });
     }
     else
         res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send(); 
