@@ -26,7 +26,8 @@ const stabSchema = new mongoose.Schema({
     telefono: String,
     email: String,
     web: String
-});
+})
+    .index({ nome: 1, localita: 1, provincia: 1 }, { unique: true });
 
 // creazione della collezione sulla base dello schema
 const Stabilimento = mongoose.model('stabilimenti', stabSchema);
