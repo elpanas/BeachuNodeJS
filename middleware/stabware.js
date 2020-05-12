@@ -1,8 +1,8 @@
 const { Stabilimento } = require('../models/stabilimento');
 
 // INSERISCE STABILIMENTO
-async function createStab(dati_stab) {       
-    
+async function createStab(dati_stab) {
+
     // creazione dell'oggetto (o record) della collezione
     const stab = new Stabilimento({
         nome: dati_stab.nome,
@@ -19,7 +19,8 @@ async function createStab(dati_stab) {
         email: dati_stab.mail,
         web: dati_stab.web
     });
-    return await stab.save();      
+
+    return await stab.save();
 }
 
 // RECUPERA STABILIMENTO SINGOLO
@@ -56,7 +57,7 @@ async function getStabDispCoord(long, lat) {
 async function getStabGest(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input Ã¨ in base64  
+    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64  
 
     return await Stabilimento
         .find({ idutente: idu }) // criteri di ricerca          
