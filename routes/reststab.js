@@ -68,7 +68,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {   
     if (checkUtente(req.get('Authorization'))) {
         createStab(req.body)
-            .then(() => { res.status(200).send() })
+            .then((result) => { if (!result) res.status(400).send; else res.status(200).send(); })
             .catch(() => { res.status(400).send() })
     }
     else
