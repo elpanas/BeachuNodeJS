@@ -31,7 +31,7 @@ async function createStab(dati_stab) {
         return await stab.save();
     }
     else
-        throw Error;
+        return false;
 }
 
 // RECUPERA STABILIMENTO SINGOLO
