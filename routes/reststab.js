@@ -38,7 +38,7 @@ router.get('/disp/coord/:long/:lat', (req, res) => {
 router.get('/gest', (req, res) => {
     if (checkUtente(req.get('Authorization'))) {
         getStabGest(req.get('Authorization'))
-            .then((result) => { result.json(result) })
+            .then((result) => { res.json(result) })
             .catch(() => { res.status(400).send() });
     }
     else
