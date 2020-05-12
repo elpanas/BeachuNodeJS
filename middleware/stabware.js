@@ -1,37 +1,25 @@
 const { Stabilimento } = require('../models/stabilimento');
 
 // INSERISCE STABILIMENTO
-async function createStab(dati_stab) {  
-
-    const stabExist = await Stabilimento
-    .find({
+async function createStab(dati_stab) {       
+    
+    // creazione dell'oggetto (o record) della collezione
+    const stab = new Stabilimento({
         nome: dati_stab.nome,
         localita: dati_stab.localita,
-        provincia: dati_stab.provincia
-    })
-    .limit(1);
-    
-    if (!stabExist) {
-        // creazione dell'oggetto (o record) della collezione
-        const stab = new Stabilimento({
-            nome: dati_stab.nome,
-            localita: dati_stab.localita,
-            provincia: dati_stab.provincia,
-            location: {
-                type: "Point",
-                coordinates: [dati_stab.longitudine, dati_stab.latitudine]
-            },
-            ombrelloni: dati_stab.ombrelloni,
-            disponibili: dati_stab.ombrelloni,
-            idutente: dati_stab.idu,
-            telefono: dati_stab.telefono,
-            email: dati_stab.mail,
-            web: dati_stab.web
-        });
-        return await stab.save();
-    }
-    else
-        return false;
+        provincia: dati_stab.provincia,
+        location: {
+            type: "Point",
+            coordinates: [dati_stab.longitudine, dati_stab.latitudine]
+        },
+        ombrelloni: dati_stab.ombrelloni,
+        disponibili: dati_stab.ombrelloni,
+        idutente: dati_stab.idu,
+        telefono: dati_stab.telefono,
+        email: dati_stab.mail,
+        web: dati_stab.web
+    });
+    return await stab.save();      
 }
 
 // RECUPERA STABILIMENTO SINGOLO
