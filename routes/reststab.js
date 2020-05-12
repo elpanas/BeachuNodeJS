@@ -42,7 +42,7 @@ router.get('/gest', (req, res) => {
                 if (result.length > 0)
                     res.json(result);
                 else
-                    res.status(404).send(req.get('Authorization'));
+                    res.status(404).send('Bathing establishments were not found');
             })
             .catch(() => { res.status(400).send() });
     }
