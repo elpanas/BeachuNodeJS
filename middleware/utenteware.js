@@ -6,30 +6,17 @@ async function createUtente(dati_utente) {
     const user = Buffer.from(dati_utente.username, 'base64').toString();
     const psw = Buffer.from(dati_utente.password, 'base64').toString();
 
-    // controlla che il documento non esista già
-    const userExists = await Utente
-        .find({
-            nome: dati_utente.nome,
-            cognome: dati_utente.cognome,
-            username: user
-        })
-        .limit(1);
+    // creazione dell'oggetto (o record) della collezione
+    const utente = new Utente({
+        nome: dati_utente.nome,
+        cognome: dati_utente.cognome,
+        email: dati_utente.email,
+        username: user,
+        password: psw
+    });
 
-    if (userExists.length > 0) {
-        // creazione dell'oggetto (o record) della collezione
-        const utente = new Utente({
-            nome: dati_utente.nome,
-            cognome: dati_utente.cognome,
-            email: dati_utente.email,
-            username: user,
-            password: psw
-        });
-
-        // salva il documento
-        return await utente.save();
-    }    
-    
-    return false;
+    // salva il documento
+    return await utente.save();
 }
 
 // RECUPERA UTENTE SINGOLO
@@ -41,7 +28,7 @@ async function getUtente(id) {
 async function getLogin(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    const buf = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64    
+    const buf = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input Ã¨ in base64    
 
     // At this point buf = "username:password"
     const [username, password] = buf.split(':');      // divido in base a ':' come fatto nell'app in Xamarin
@@ -87,7 +74,7 @@ async function updateUtente(idu, dati_utente) {
 async function checkUtente(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64       
+    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input Ã¨ in base64       
     
     return await Utente.exists({ _id: idu }) // criteri di ricerca 
 }
