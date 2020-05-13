@@ -67,12 +67,12 @@ router.delete('/:id', (req, res) => {
         .then((result) => {
             if (result) {
                 removeUtente(req.params.id)
-                    .then(() => { const ok = true })
-                    .catch(() => { res.status(404).send('The user with the given id was not found') });
-                if (ok)
-                    removeAllStab(req.params.id)
-                        .then(() => { res.status(200).send() })
-                        .catch(() => { res.status(404).send() })
+                    .then(() => { 
+                            removeAllStab(req.params.id)
+                                .then(() => { res.status(200).send() })
+                                .catch(() => { res.status(404).send() })
+                    })
+                    .catch(() => { res.status(404).send('The user with the given id was not found') });  
             }
             else
                 res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
