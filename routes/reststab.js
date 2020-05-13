@@ -60,11 +60,11 @@ router.get('/:id', (req, res) => {
     getStab(req.params.id)
         .then((result) => {
             if (result.length > 0)
-                res.json(result);
+                res.send(result);
             else
                 res.status(404).send('Bathing establishment was not found');
         })
-        .catch(() => { res.status(404).send('Bathing establishment was not found') });
+        .catch(() => { res.status(400).send('Bathing establishment was not found') });
 });
 // --------------------------------------------------------------------
 
