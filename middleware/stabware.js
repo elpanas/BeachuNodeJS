@@ -25,7 +25,7 @@ async function createStab(dati_stab) {
 
 // RECUPERA STABILIMENTO SINGOLO
 async function getStab(id) {
-    return await Stabilimento.find({_id: id}) // criteri di ricerca   
+    return await Stabilimento.find({ _id: id }) // criteri di ricerca   
 }
 
 // CERCA STABILIMENTI DISPONIBILI PER LUOGO
