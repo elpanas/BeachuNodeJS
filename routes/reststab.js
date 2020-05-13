@@ -15,7 +15,7 @@ router.get('/disp/location/:loc/:prov/', (req, res) => {
     getStabDispLoc(req.params.loc, req.params.prov)
         .then((result) => {
             if (result.length > 0)
-                res.json(result);
+                res.send(result);
             else
                 res.status(404).send('Bathing establishments were not found');
         })
@@ -27,7 +27,7 @@ router.get('/disp/coord/:long/:lat', (req, res) => {
     getStabDispCoord(req.params.long, req.params.lat)
         .then((result) => {
             if (result.length > 0)
-                res.json(result);
+                res.send(result);
             else
                 res.status(404).send('Bathing establishments were not found');
         })
@@ -41,8 +41,8 @@ router.get('/gest', (req, res) => {
             if (check) {
                 getStabGest(req.get('Authorization'))
                     .then((result) => {
-                        if (result)
-                            res.json(result);
+                        if (result.length > 0)
+                            res.send(result);
                         else
                             res.status(404).send('Bathing establishments were not found');
                     })
