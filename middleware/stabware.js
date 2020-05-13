@@ -69,7 +69,7 @@ async function getStabGest(auth) {
 
 // RIMUOVE UNO STABILIMENTO
 async function removeStab(id) {
-    return await home.Stabilimento.deleteOne({ _id: id }); // elimina il record con questo id
+    return await Stabilimento.deleteOne({ _id: id }); // elimina il record con questo id
 }
 
 // AGGIORNA INFO STABILIMENTO
