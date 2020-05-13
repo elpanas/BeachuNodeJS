@@ -37,12 +37,12 @@ router.get('/disp/coord/:long/:lat', (req, res) => {
 // stabilimenti di un gestore
 router.get('/gest', (req, res) => {
     checkUtente(req.get('Authorization'))
-        .then((result) => {
-            if (result) {
+        .then((check) => {
+            if (check) {
                 getStabGest(req.get('Authorization'))
                     .then((result) => {
                         if (result)
-                            res.send(result);
+                            res.json(result);
                         else
                             res.status(404).send('Bathing establishments were not found');
                     })
