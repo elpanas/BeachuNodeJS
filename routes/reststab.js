@@ -1,5 +1,6 @@
 const express = require('express');
 const { createStab,
+        getStab,
         getStabDispLoc,
         getStabDispCoord,
         getStabGest,
