@@ -19,7 +19,7 @@ async function createUtente(dati_utente) {
     const result = await utente.save();
 
     if (result._id)
-        return Buffer.from(result._id, 'base64');
+        return Buffer.from(result._id, 'base64').toString;
     else
         return false;
 }
@@ -33,7 +33,7 @@ async function getUtente(id) {
 async function getLogin(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    const buf = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64    
+    const buf = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input Ã¨ in base64    
 
     // At this point buf = "username:password"
     const [username, password] = buf.split(':');      // divido in base a ':' come fatto nell'app in Xamarin
@@ -44,7 +44,7 @@ async function getLogin(auth) {
     }) // criteri di ricerca         
 
     if (result)
-        return Buffer.from(result._id, 'base64');
+        return Buffer.from(result._id, 'base64').toString;
     else
         return false;
 }
@@ -73,7 +73,7 @@ async function updateUtente(idu, dati_utente) {
 async function checkUtente(auth) {
 
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
-    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64       
+    const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input Ã¨ in base64       
     
     const result = await Utente.find({ _id: idu }) // criteri di ricerca 
 
