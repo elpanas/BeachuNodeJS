@@ -25,7 +25,7 @@ async function createStab(dati_stab) {
 
 // RECUPERA STABILIMENTO SINGOLO
 async function getStab(id) {
-    return await Stabilimento.find({ _id: id }) // criteri di ricerca   
+    return await Stabilimento.find({_id: id}) // criteri di ricerca   
 }
 
 // CERCA STABILIMENTI DISPONIBILI PER LUOGO
@@ -72,6 +72,11 @@ async function removeStab(id) {
     return await Stabilimento.deleteOne({ _id: id }); // elimina il record con questo id
 }
 
+// RIMUOVE UNO STABILIMENTO
+async function removeAllStab(id) {
+    return await Stabilimento.deleteMany({ idutente: id }; // elimina il record con questo id
+}
+
 // AGGIORNA INFO STABILIMENTO
 async function updateStab(ids, dati_stab) {
 
@@ -86,7 +91,7 @@ async function updateStab(ids, dati_stab) {
             },
             idu: dati_stab.idu,
             ombrelloni: dati_stab.ombrelloni,
-            disponibili: dati_stab.ombrelloni,
+            disponibili: dati_stab.disponibili,
             telefono: dati_stab.telefono,
             email: dati_stab.email,
             web: dati_stab.web

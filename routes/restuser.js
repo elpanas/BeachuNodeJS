@@ -5,6 +5,7 @@ const { createUtente,
     removeUtente,
     updateUtente,
     checkUtente } = require('../middleware/utenteware');
+const { removeAllStab } = require('../middleware/stabware');
 const router = express.Router();
 
 // READ
@@ -66,8 +67,11 @@ router.delete('/:id', (req, res) => {
         .then((result) => {
             if (result) {
                 removeUtente(req.params.id)
-                    .then(() => { res.status(200).send() })
-                    .catch(() => { res.status(404).send('The user with the given id was not found') })
+                    .then(() => {
+                        removeAllStab(req.params.id);
+                        res.status(200).send()
+                    })
+                    .catch(() => { res.status(404).send('The user with the given id was not found') })                
             }
             else
                 res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
