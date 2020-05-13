@@ -16,7 +16,12 @@ async function createUtente(dati_utente) {
     });
 
     // salva il documento
-    return await utente.save();
+    const result = await utente.save();
+    
+    if (result)
+        return Buffer.from(result._id).toString('base64');
+    else
+        return "0";
 }
 
 // RECUPERA UTENTE SINGOLO
