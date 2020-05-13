@@ -19,7 +19,7 @@ async function createUtente(dati_utente) {
     const result = await utente.save();
 
     if (result._id)
-        return Buffer.from(result._id, 'base64').toString;
+        return Buffer.from(result._id).toString('base64');
     else
         return false;
 }
@@ -44,7 +44,7 @@ async function getLogin(auth) {
     }) // criteri di ricerca         
 
     if (result)
-        return Buffer.from(result._id, 'base64').toString;
+        return Buffer.from(result._id).toString('base64');
     else
         return false;
 }
