@@ -19,9 +19,9 @@ async function createUtente(dati_utente) {
     const result = await utente.save();
     
     if (result)
-        return Buffer.from(result._id).toString('base64');
+        return result._id;
     else
-        return "0";
+        return false;
 }
 
 // RECUPERA UTENTE SINGOLO
@@ -44,7 +44,7 @@ async function getLogin(auth) {
     }) // criteri di ricerca         
 
     if (result)
-        return Buffer.from(result._id).toString('base64');
+        return result._id;
     else
         return false;
 }
