@@ -27,7 +27,7 @@ router.get('/login', (req, res) => {
             if (!result)
                 res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
             else
-                res.status(200).send(result);
+                res.status(200).json("id", result);
         })
         .catch(() => { res.status(404).send('Error') })
 });
