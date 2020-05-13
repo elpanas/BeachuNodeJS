@@ -37,7 +37,11 @@ router.get('/login', (req, res) => {
 // inserisce i dati di un utente
 router.post('/', (req, res) => {
     createUtente(req.body)
-        .then((result) => { if (!result) res.status(400).send(); else res.status(200).send(result); })
+        .then((result) => { 
+            if (result) 
+                res.status(200).send(Buffer.from(result._id).toString('base64'));
+            else
+                res.status(400).send(); })
         .catch(() => { res.status(400).send() })
 });
 // --------------------------------------------------------------------
