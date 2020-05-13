@@ -75,7 +75,12 @@ async function checkUtente(auth) {
     const tmp = auth.split(' ');   // Divido in base allo stazio  "Basic Y2hhcmxlczoxMjM0NQ==" per recuperare la 2a parte
     const idu = Buffer.from(tmp[1], 'base64').toString(); // creo un buffer e lo avviso che l'input è in base64       
     
-    return await Utente.exists({ _id: idu }) // criteri di ricerca 
+    const result = await Utente.find({ _id: idu }) // criteri di ricerca 
+
+    if (result)
+        return true;
+    else
+        return false;
 }
 
 module.exports.createUtente = createUtente;

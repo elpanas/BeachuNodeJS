@@ -45,26 +45,34 @@ router.post('/', (req, res) => {
 // UPDATE
 // aggiorna i dati di un utente
 router.put('/:id', (req, res) => {
-    if (checkUtente(req.get('Authorization'))) {
-        updateUtente(req.params.id, req.body)
-            .then(() => { res.status(200).send() })
-            .catch(() => { res.status(404).send('The user with the given id was not found') })
-    }
-    else 
-        res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();    
+    checkUtente(req.get('Authorization'))
+        .then((result) => {
+            if (result) {
+                updateUtente(req.params.id, req.body)
+                    .then(() => { res.status(200).send() })
+                    .catch(() => { res.status(404).send('The user with the given id was not found') })
+            }
+            else
+                res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
+        })
+        .catch(() => { res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send() })
 });
 // --------------------------------------------------------------------
 
 // DELETE
 // elimina il record con questo id
 router.delete('/:id', (req, res) => {
-    if (checkUtente(req.get('Authorization'))) {
-        removeUtente(req.params.id)
-            .then(() => { res.status(200).send() })
-            .catch(() => { res.status(404).send('The user with the given id was not found') })
-    }
-    else
-        res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
+    checkUtente(req.get('Authorization'))
+        .then((result) => {
+            if (result) {
+                removeUtente(req.params.id)
+                    .then(() => { res.status(200).send() })
+                    .catch(() => { res.status(404).send('The user with the given id was not found') })
+            }
+            else
+                res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
+        })
+        .catch(() => { res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send() });
 });
 // --------------------------------------------------------------------
 
