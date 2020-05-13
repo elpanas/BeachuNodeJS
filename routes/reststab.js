@@ -41,7 +41,7 @@ router.get('/gest', (req, res) => {
             if (result) {
                 getStabGest(req.get('Authorization'))
                     .then((result) => {
-                        if (result.length > 0)
+                        if (result)
                             res.send(result);
                         else
                             res.status(404).send('Bathing establishments were not found');
