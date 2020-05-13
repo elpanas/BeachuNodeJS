@@ -86,7 +86,7 @@ async function updateStab(ids, dati_stab) {
             },
             idu: dati_stab.idu,
             ombrelloni: dati_stab.ombrelloni,
-            disponibili: dati_stab.disponibili,
+            disponibili: dati_stab.ombrelloni,
             telefono: dati_stab.telefono,
             email: dati_stab.email,
             web: dati_stab.web
