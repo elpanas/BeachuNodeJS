@@ -19,7 +19,7 @@ async function createUtente(dati_utente) {
     const result = await utente.save();
 
     if (result._id)
-        return result._id;
+        return Buffer.from(result._id, 'base64').toString;
     else
         return false;
 }
