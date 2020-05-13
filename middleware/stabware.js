@@ -74,7 +74,7 @@ async function removeStab(id) {
 
 // RIMUOVE UNO STABILIMENTO
 async function removeAllStab(id) {
-    return await Stabilimento.deleteMany({ idutente: id }; // elimina il record con questo id
+    return await Stabilimento.deleteMany({ idutente: id }); // elimina il record con questo id
 }
 
 // AGGIORNA INFO STABILIMENTO
