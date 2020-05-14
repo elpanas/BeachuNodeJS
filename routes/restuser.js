@@ -67,11 +67,7 @@ router.delete('/:id', (req, res) => {
         .then((result) => {
             if (result) {
                 removeUtente(req.params.id)
-                    .then(() => { 
-                            removeAllStab(req.params.id)
-                                .then(() => { res.status(200).send() })
-                                .catch(() => { res.status(200).send() })                            
-                    })
+                    .then(() => { res.status(200).send() })
                     .catch(() => { res.status(404).send('The user with the given id was not found') });  
             }
             else
