@@ -6,7 +6,7 @@ const app = express();
 
 mongoose.set('useCreateIndex', true); // obbliga mongoose a usare CreateIndex (nuovo) invece di ensureIndexis
 
-const url = process.env.MONGODB_URI; // stringa di connessione al db remoto
+const url = process.env.DB_URI; // stringa di connessione al db remoto
 
 
 
