@@ -1,136 +1,70 @@
-const express = require('express');
-const { createStab,
-        getStab,
-        getStabDispLoc,
-        getStabDispCoord,
-        getStabGest,
-        removeStab,
-        updateStab,
-    updateUmbrellas } = require('../middleware/stabware');
-const { checkUtente } = require('../middleware/utenteware');
+const express = require('express'),
+    { createBath,
+        getBathDispLoc,
+        getBathDispCoord,
+        getBathGest,
+        removeBath,
+        updateBath,
+    updateUmbrellas } = require('../middleware/bathware'),
+    { authManagement } = require('../functions/functions'),
+    errorMessage = 'The establishment with the given id was not found';
 const router = express.Router();
 
 // READ
-// stabilimenti disponibili
-router.get('/disp/location/:loc/:prov/', (req, res) => {
-    getStabDispLoc(req.params.loc, req.params.prov)
-        .then((result) => {
-            if (result.length > 0)
-                res.send(result);
-            else
-                res.status(404).send('Bathing establishments were not found');
-        })
-        .catch(() => { res.status(404).send('Bathing establishments were not found') })
+// Stabilimenti disponibili
+router.get('/disp/location/:loc/:prov', async (req, res) => {
+    var result = await getBathDispLoc(req.params.loc, req.params.prov);        
+    resultManagement(res, result);
 });
 
-// stabilimenti disponibili per coordinate
-router.get('/disp/coord/:long/:lat', (req, res) => {
-    getStabDispCoord(req.params.long, req.params.lat)
-        .then((result) => {
-            if (result.length > 0)
-                res.send(result);
-            else
-                res.status(404).send('Bathing establishments were not found');
-        })
-        .catch(() => { res.status(404).send('Bathing establishments were not found') })
-});
+// Stabilimenti disponibili per coordinate
+router.get('/disp/coord/:long/:lat', async (req, res) => {
+    var result = await getBathDispCoord(req.params.long, req.params.lat);        
+    resultManagement(res, result);
+});        
 
-// stabilimenti di un gestore
-router.get('/gest', (req, res) => {
-    checkUtente(req.get('Authorization'))
-        .then((check) => {
-            if (check) {
-                getStabGest(req.get('Authorization'))
-                    .then((result) => {
-                        if (result.length > 0)
-                            res.send(result);
-                        else
-                            res.status(404).send('Bathing establishments were not found');
-                    })
-                    .catch(() => { res.status(400).send() });
-            }
-            else
-                res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
-        })
-        .catch(() => { res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send() })
-});
-
-// stabilimento singolo
-router.get('/:id', (req, res) => {
-    getStab(req.params.id)
-        .then((result) => {
-            if (result.length > 0)
-                res.send(result);
-            else
-                res.status(404).send('Bathing establishment was not found');
-        })
-        .catch(() => { res.status(400).send('Bathing establishment was not found') });
+// Stabilimenti di un gestore
+router.get('/gest', async (req, res) => {    
+    var result = await getBathGest(req.get('Authorization'));
+    resultManagement(res, result);
 });
 // --------------------------------------------------------------------
 
 // CREATE
-// inserisce i dati di uno stabilimento
+// inserisce i dati di uno Bathilimento
 router.post('/', (req, res) => {
-    checkUtente(req.get('Authorization'))
-        .then((result) => {
-            if (result) {
-                createStab(req.body)
-                    .then(() => { res.status(200).send() })
-                    .catch(() => { res.status(400).send() })
-            }
-            else
-                res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
-        })
-        .catch(() => { res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send() })
+    authManagement(req, res); 
+    createBath(req.body)
+        .then(() => res.status(200).send())
+        .catch(() => res.status(400).send());          
 });
 // --------------------------------------------------------------------
 
 // UPDATE
 // aggiorna il numero di ombrelloni disponibili
 router.put('/disp', (req, res) => {
-    checkUtente(req.get('Authorization'))
-        .then((result) => {
-            if (result) {
-                updateUmbrellas(req.body.ids, req.body.ombrelloni)
-                    .then(() => { res.status(200).send() })
-                    .catch(() => { res.status(404).send('The establishement with the given id was not found') })
-            }
-            else
-                res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
-        })
-        .catch (() => {res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send()})       
+    authManagement(req, res); 
+    updateUmbrellas(req.body.bid, req.body.avumbrellas)
+        .then(() => res.status(200).send())
+        .catch(() => res.status(404).send(errorMessage)); 
 });
 
-// aggiorna i dati dello stabilimento
+// aggiorna i dati dello Bathilimento
 router.put('/:id', (req, res) => {
-    checkUtente(req.get('Authorization'))
-        .then((result) => {
-            if (result) {
-                updateStab(req.params.id, req.body)
-                    .then(() => { res.status(200).send() })
-                    .catch(() => { res.status(404).send('The establishement with the given id was not found') })
-            }
-            else
-                res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
-        })
-        .catch(() => { res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send() })
+    authManagement(req, res);
+    updateBath(req.params.id, req.body)
+        .then(() => res.status(200).send())
+        .catch(() => res.status(404).send(errorMessage));            
 });
 // --------------------------------------------------------------------
 
 // DELETE
 // elimina il record con questo id
 router.delete('/:id', (req, res) => {
-    checkUtente(req.get('Authorization'))
-        .then((result) => {
-            if (result) {
-                removeStab(req.params.id)
-                    .then(() => { res.status(200).send() })
-                    .catch(() => { res.status(404).send('The establishment with the given id was not found') })
-            }
-            else
-                res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send();
-        })
-        .catch(() => { res.status(401).setHeader('WWW-Authenticate', 'Basic realm: "Area Riservata"').send() })
+    authManagement(req, res);
+    removeBath(req.params.id)
+        .then(() => res.status(200).send())
+        .catch(() => res.status(404).send(errorMessage));            
 });
 // --------------------------------------------------------------------
 
