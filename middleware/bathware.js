@@ -1,40 +1,40 @@
 const { Bath } = require('../models/bath');
 
-// INSERISCE BathILIMENTO
+// ADD A BATH
 async function createBath(bath_data) {
     const Bath = new Bath(bath_data);
     return await Bath.save();
 }
 
-// CERCA BathILIMENTI av_umbrellas PER LUOGO
+// SEARCH FOR BATHS USING CITY AND REGION INFOS
 async function getBathDispLoc(city, prov) {
     return await Bath
         .find({
-            av_umbrellas: { $gt: 0 }, // i av_umbrellas devono essere maggiori di 0
+            av_umbrellas: { $gt: 0 }, // av_umbrellas > 0
             city: city,
             province: prov
         })        
-        .sort({ av_umbrellas: 1, name: 1 }) // ordine asc 
+        .sort({ av_umbrellas: 1, name: 1 }) // asc 
         .limit(20)
         .lean();
 }
 
-// CERCA STABILIMENTI PER COORDINATE
+// SEARCH FOR BATHS USING COORDINATES
 async function getBathDispCoord(long, lat) {
     return await Bath
         .find({
             av_umbrellas: { $gt: 0 },             
             $geoNear: {
                 near: { type: 'Point', coordinates: [long, lat] },
-                maxDistance: 3000 // in metri
+                maxDistance: 3000 // meters
             }
-        }) // criteri di ricerca 
+        })
         .sort({ av_umbrellas: 1, name: 1 })
         .limit(20)
         .lean();
 }
 
-// CERCA STABILIMENTI DI UN GESTORE
+// RETURN A MANAGER'S BATHS LIST
 async function getBathGest(uid) {  
     return await Bath
         .find({ uid: uid })      
@@ -42,7 +42,7 @@ async function getBathGest(uid) {
         .lean();
 }
 
-// AGGIORNA INFO BathILIMENTO
+// UPDATE BATH INFO
 async function updateBath(bid, bath_data) {
     return await Bath
     .findByIdAndUpdate(
@@ -53,7 +53,7 @@ async function updateBath(bid, bath_data) {
     .lean();
 }
 
-// AGGIORNA IL NUMERO DI av_umbrellas
+// UPDATE NUMBER OF AVAILABLE UMBRELLAS
 async function updateUmbrellas(bid, available) {
     return await Bath
     .findByIdAndUpdate(
@@ -64,7 +64,7 @@ async function updateUmbrellas(bid, available) {
     .lean();
 }
 
-// RIMUOVE UNO STABILIMENTO
+// DELETE A BATH
 async function removeBath(bid) {
     return await Bath.findByIdAndDelete(bid).lean();
 }

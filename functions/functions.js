@@ -1,13 +1,15 @@
 require('dotenv').config();
 
+// AUTHORIZATION MANAGEMENT
 function authManagement(req, res) {
-    var check = req.get('Authorization'); 
+    const check = req.get('Authorization'); 
     if (check != process.env.HASH_AUTH)
         res.status(401)
-            .setHeader('WWW-Authenticate', 'Basic realm: "Rrestricted Area"')
+            .setHeader('WWW-Authenticate', 'Basic realm: "Restricted Area"')
             .send();  
 }
 
+// QUERY RESULT MANAGEMENT
 function resultManagement(res, result) {
     try {
         if (result.length > 0)
@@ -16,7 +18,7 @@ function resultManagement(res, result) {
             res.status(404).send('Bathing establishments were not found'); 
     }
     catch (e) {
-        res.status(404).send(e); 
+        res.status(400).send(e); 
     }
 }
 
