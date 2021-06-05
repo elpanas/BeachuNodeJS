@@ -58,7 +58,7 @@ router.delete('/:id', (req, res) => {
     authManagement(req, res);
     removeBath(req.params.id)
         .then(() => res.status(200).send())
-        .catch(() => res.status(404).send(errorMessage));            
+        .catch(() => res.status(404).send(errorMessage))          
 });
 // --------------------------------------------------------------------
 
