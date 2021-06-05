@@ -2,8 +2,8 @@ const { Bath } = require('../models/bath');
 
 // ADD A BATH
 async function createBath(bath_data) {
-    const Bath = new Bath(bath_data);
-    return await Bath.save();
+    const bath = new Bath(bath_data);
+    return await bath.save();
 }
 
 // SEARCH FOR BATHS USING CITY AND REGION INFOS
@@ -21,17 +21,19 @@ async function getBathDispLoc(city, prov) {
 
 // SEARCH FOR BATHS USING COORDINATES
 async function getBathDispCoord(long, lat) {
-    return await Bath
-        .find({
-            av_umbrellas: { $gt: 0 },             
-            $geoNear: {
-                near: { type: 'Point', coordinates: [long, lat] },
-                maxDistance: 3000 // meters
-            }
+    return await Bath.find(
+        {
+            location: { 
+                $near: { 
+                    $geometry: { type: "Point", coordinates: [lat,long] },                  
+                    $maxDistance: 3000
+                }                              
+            },
+            av_umbrellas: { $gt: 0 }
         })
-        .sort({ av_umbrellas: 1, name: 1 })
-        .limit(20)
-        .lean();
+    .limit(20)
+    .sort({ av_umbrellas: 1, name: 1 })
+    .lean();
 }
 
 // RETURN A MANAGER'S BATHS LIST
