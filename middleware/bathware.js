@@ -20,12 +20,12 @@ async function getBathDispLoc(city, prov) {
 }
 
 // SEARCH FOR BATHS USING COORDINATES
-async function getBathDispCoord(long, lat) {
+async function getBathDispCoord(lat, long) {
     return await Bath.find(
         {
             location: { 
                 $near: { 
-                    $geometry: { type: "Point", coordinates: [lat,long] },                  
+                    $geometry: { type: "Point", coordinates: [long,lat] },                  
                     $maxDistance: 3000
                 }                              
             },

@@ -18,7 +18,7 @@ router.get('/disp/location/:loc/:prov', async (req, res) => {
 });
 
 router.get('/disp/coord/:lat/:long', async (req, res) => {
-    const result = await getBathDispCoord(req.params.long, req.params.lat);        
+    const result = await getBathDispCoord(req.params.lat, req.params.long);        
     resultManagement(res, result);
 });        
 
