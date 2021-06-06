@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const bathSchema = new mongoose.Schema({
     name: {
         type: String, required: true
@@ -23,7 +22,10 @@ const bathSchema = new mongoose.Schema({
         type: String, required: true
     },
     phone: String
-}).index({ name: 1, city: 1, province: 1 }, { unique: true });
+}).index(
+    { name: 1, city: 1, province: 1 },
+    { location: '2dsphere' },
+    { unique: true });
 
 const Bath = mongoose.model('stabilimenti', bathSchema);
 

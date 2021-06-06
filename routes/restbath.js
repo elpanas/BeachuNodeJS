@@ -6,7 +6,8 @@ const express = require('express'),
         removeBath,
         updateBath,
     updateUmbrellas } = require('../middleware/bathware'),
-    { authManagement } = require('../functions/functions'),
+    { authManagement,
+        resultManagement } = require('../functions/functions'),
     errorMessage = 'The establishment with the given id was not found';
 const router = express.Router();
 
@@ -16,13 +17,13 @@ router.get('/disp/location/:loc/:prov', async (req, res) => {
     resultManagement(res, result);
 });
 
-router.get('/disp/coord/:long/:lat', async (req, res) => {
-    const result = await getBathDispCoord(req.params.long, req.params.lat);        
+router.get('/disp/coord/:lat/:long', async (req, res) => {
+    const result = await getBathDispCoord(req.params.lat, req.params.long);        
     resultManagement(res, result);
 });        
 
-router.get('/gest', async (req, res) => {    
-    const result = await getBathGest(req.get('Authorization'));
+router.get('/gest/:id', async (req, res) => {    
+    const result = await getBathGest(req.params.id);
     resultManagement(res, result);
 });
 // --------------------------------------------------------------------
@@ -39,7 +40,7 @@ router.post('/', (req, res) => {
 // UPDATE
 router.put('/disp', (req, res) => {
     authManagement(req, res); 
-    updateUmbrellas(req.body.bid, req.body.avumbrellas)
+    updateUmbrellas(req.body.bid, req.body.av_umbrellas)
         .then(() => res.status(200).send())
         .catch(() => res.status(404).send(errorMessage)); 
 });
@@ -57,7 +58,7 @@ router.delete('/:id', (req, res) => {
     authManagement(req, res);
     removeBath(req.params.id)
         .then(() => res.status(200).send())
-        .catch(() => res.status(404).send(errorMessage));            
+        .catch(() => res.status(404).send(errorMessage))          
 });
 // --------------------------------------------------------------------
 
