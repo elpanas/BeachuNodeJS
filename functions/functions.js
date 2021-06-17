@@ -18,7 +18,6 @@ function resultManagement(res, result) {
             res.status(404).send('Bathing establishments were not found'); 
     }
     catch (e) {
-        console.log(e);
         res.status(400).send(e); 
     }
 }

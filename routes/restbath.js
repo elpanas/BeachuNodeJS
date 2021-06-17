@@ -20,7 +20,12 @@ router.get('/disp/location/:loc/:prov', async (req, res) => {
 router.get('/disp/coord/:lat/:long', async (req, res) => {
     const result = await getBathDispCoord(req.params.lat, req.params.long);        
     resultManagement(res, result);
-});        
+});     
+
+router.get('/bath/:id', async (req, res) => {    
+    const result = await getBath(req.params.id);
+    resultManagement(res, result);
+});
 
 router.get('/gest/:id', async (req, res) => {    
     const result = await getBathGest(req.params.id);

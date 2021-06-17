@@ -36,6 +36,11 @@ async function getBathDispCoord(lat, long) {
     .lean();
 }
 
+// GET SINGLE BATH
+async function getBath(bid) {  
+    return await Bath.findById(bid).lean();
+}
+
 // RETURN A MANAGER'S BATHS LIST
 async function getBathGest(uid) {  
     return await Bath
@@ -74,6 +79,7 @@ async function removeBath(bid) {
 module.exports.createBath = createBath;
 module.exports.getBathDispLoc = getBathDispLoc;
 module.exports.getBathDispCoord = getBathDispCoord;
+module.exports.getBath = getBath;
 module.exports.getBathGest = getBathGest;
 module.exports.updateBath = updateBath;
 module.exports.updateUmbrellas = updateUmbrellas;
