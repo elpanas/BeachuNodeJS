@@ -12,7 +12,8 @@ function authManagement(req, res) {
 // QUERY RESULT MANAGEMENT
 function resultManagement(res, result) {
     try {
-        if (result.length > 0)
+        console.log(result);
+        if (typeof result !== 'undefined' && result)
             res.status(200).send(result);
         else
             res.status(404).send('Bathing establishments were not found'); 
