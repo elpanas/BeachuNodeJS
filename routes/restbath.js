@@ -37,19 +37,21 @@ router.get('/gest/:id', async (req, res) => {
 router.post('/', (req, res) => {
     authManagement(req, res); 
     createBath(req.body)
-        .then(() => res.status(200).send())
+        .then(() => res.status(201).send())
         .catch(() => res.status(400).send());          
 });
 // --------------------------------------------------------------------
 
-// UPDATE
-router.put('/disp', (req, res) => {
+// UPDATE UMBRELLAS
+router.patch('/disp', (req, res) => {
     authManagement(req, res); 
     updateUmbrellas(req.body.bid, req.body.av_umbrellas)
         .then(() => res.status(200).send())
         .catch(() => res.status(404).send(errorMessage)); 
 });
+// --------------------------------------------------------------------
 
+// UPDATE WHOLE BATH
 router.put('/:id', (req, res) => {
     authManagement(req, res);
     updateBath(req.params.bid, req.body)
