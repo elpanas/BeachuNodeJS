@@ -38,7 +38,7 @@ async function getBathDispCoord(lat, long) {
 
 // GET SINGLE BATH
 async function getBath(bid) {  
-    return await Bath.findById(bid).lean();
+    return await Bath.findOne({ _id: bid }).lean();
 }
 
 // RETURN A MANAGER'S BATHS LIST
