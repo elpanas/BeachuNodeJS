@@ -6,9 +6,13 @@
   "author": {
     "name": "Luca Panariello"
   },
+  "repository": {
+    "url": "git://github.com/elpanas/BeachuNodeJS.git"
+  },
+  "license": "MIT license",
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mongoose": "^5.9.10"
+    "mongoose": "^5.12.14"
   }
 }
