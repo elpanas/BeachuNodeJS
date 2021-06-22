@@ -1,5 +1,6 @@
 require('dotenv').config();
-const express = require('express'), // framework nodejs
+const express = require('express'); // framework nodejs
+const app = express(),
   mongoose = require('mongoose'), // framework per mongoDB
   restbath = require('./routes/restbath'),
   url = process.env.DB_URI,
@@ -12,8 +13,6 @@ const express = require('express'), // framework nodejs
     useFindAndModify: false,
   };
 
-const app = express();
-
 app.use(express.json());
 
 // db connection
@@ -22,9 +21,7 @@ mongoose
   .then(() => console.log('Connected to MongoDB...'))
   .catch((err) => console.error('Could not connect to MongoDB...', err));
 
-app.get('/', (req, res) => {
-  res.send('BeachU Web Service');
-});
+app.get('/', (req, res) => res.send('BeachU Web Service'));
 
 app.use('/api/bath', restbath);
 

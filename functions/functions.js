@@ -2,8 +2,7 @@ require('dotenv').config();
 
 // AUTHORIZATION MANAGEMENT
 function authManagement(req, res) {
-  const check = req.get('Authorization');
-  if (check != process.env.HASH_AUTH)
+  if (req.get('Authorization') != process.env.HASH_AUTH)
     res
       .status(401)
       .setHeader('WWW-Authenticate', 'Basic realm: "Restricted Area"')
@@ -13,7 +12,6 @@ function authManagement(req, res) {
 // QUERY RESULT MANAGEMENT
 function resultManagement(res, result) {
   try {
-    console.log(result);
     if (typeof result !== 'undefined' && result) {
       res.status(200).send(result);
     } else {
