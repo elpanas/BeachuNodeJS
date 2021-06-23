@@ -1,5 +1,4 @@
 require('dotenv').config();
-require('sqreen');
 const express = require('express'); // framework nodejs
 const app = express(),
   helmet = require('helmet'),
