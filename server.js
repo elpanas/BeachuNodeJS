@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express'); // framework nodejs
 const app = express(),
+  helmet = require('helmet'),
   mongoose = require('mongoose'), // framework per mongoDB
   restbath = require('./routes/restbath'),
   url = process.env.DB_URI,
@@ -12,6 +13,8 @@ const app = express(),
     autoIndex: false,
     useFindAndModify: false,
   };
+
+app.use(helmet());
 
 app.use(express.json());
 
