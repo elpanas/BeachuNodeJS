@@ -2,7 +2,7 @@
   "name": "beachu-node-js",
   "version": "0.1.0",
   "description": "BeachuNodeJS",
-  "main": "server.js",
+  "main": "app.js",
   "author": {
     "name": "Luca Panariello"
   },
