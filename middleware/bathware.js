@@ -2,8 +2,7 @@ const { Bath } = require('../models/bath');
 
 // ADD A BATH
 async function createBath(bath_data) {
-  const bath = new Bath(bath_data);
-  return await bath.save();
+  return await Bath.create(bath_data);
 }
 
 // SEARCH FOR BATHS USING CITY AND REGION INFOS
@@ -24,7 +23,7 @@ async function getBathDispCoord(lat, long) {
     location: {
       $near: {
         $geometry: { type: 'Point', coordinates: [long, lat] },
-        $maxDistance: 3000,
+        $maxDistance: 3000, // meters
       },
     },
     av_umbrellas: { $gt: 0 },

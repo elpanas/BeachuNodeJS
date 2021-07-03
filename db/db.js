@@ -1,11 +1,12 @@
 const mongoose = require('mongoose'),
-  config = require('../config/config');
-
-const {
-  db: { uri, options },
-} = config;
+  config = require('../config/config'),
+  {
+    db: { uri, options },
+  } = config,
+  messageOk = 'Connected to MongoDB...',
+  errorMessage = 'Could not connect to MongoDB...';
 
 mongoose
   .connect(uri, options)
-  .then(() => console.log('Connected to MongoDB...'))
-  .catch((err) => console.error('Could not connect to MongoDB...', err));
+  .then(() => console.log(messageOk))
+  .catch((err) => console.error(errorMessage, err));

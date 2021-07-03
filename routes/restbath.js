@@ -10,8 +10,8 @@ const express = require('express'),
     updateUmbrellas,
   } = require('../middleware/bathware'),
   { authManagement, resultManagement } = require('../functions/functions'),
-  errorMessage = 'The establishment with the given id was not found';
-const router = express.Router();
+  errorMessage = 'The establishment with the given id was not found',
+  router = express.Router();
 
 // READ
 router.get('/disp/location/:loc/:prov', async (req, res) => {
