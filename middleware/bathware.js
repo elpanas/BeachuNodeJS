@@ -22,7 +22,7 @@ async function getBathDispLoc(city, prov) {
     .sort({ av_umbrellas: 1, name: 1 }) // asc
     .limit(20)
     .lean()
-    .cache(time);
+    .cache({ ttl: time });
 }
 
 // SEARCH FOR BATHS USING COORDINATES
@@ -39,17 +39,20 @@ async function getBathDispCoord(lat, long) {
     .limit(20)
     .sort({ av_umbrellas: 1, name: 1 })
     .lean()
-    .cache(time);
+    .cache({ ttl: time });
 }
 
 // GET SINGLE BATH
 async function getBath(bid) {
-  return await Bath.findById(bid).lean().cache();
+  return await Bath.findById(bid).lean().cache({ ttl: time });
 }
 
 // RETURN A MANAGER'S BATHS LIST
 async function getBathGest(uid) {
-  return await Bath.find({ uid: uid }).sort({ nome: 1 }).lean().cache(time);
+  return await Bath.find({ uid: uid })
+    .sort({ nome: 1 })
+    .lean()
+    .cache({ ttl: time });
 }
 
 // UPDATE BATH INFO
