@@ -13,7 +13,10 @@ const config = {
       useFindAndModify: false,
     },
   },
-  redisUrl: process.env.REDIS_URL,
+  redis: {
+    uri: process.env.REDIS_URL,
+    time: 120,
+  },
 };
 
 module.exports = config;

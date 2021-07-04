@@ -1,5 +1,9 @@
 const { Bath } = require('../models/bath'),
-  { clearCache } = require('redis_mongoose');
+  { clearCache } = require('redis_mongoose'),
+  config = require('../config/config'),
+  {
+    redis: { time },
+  } = config;
 
 // ADD A BATH
 async function createBath(bath_data) {
@@ -18,7 +22,7 @@ async function getBathDispLoc(city, prov) {
     .sort({ av_umbrellas: 1, name: 1 }) // asc
     .limit(20)
     .lean()
-    .cache();
+    .cache(time);
 }
 
 // SEARCH FOR BATHS USING COORDINATES
@@ -35,7 +39,7 @@ async function getBathDispCoord(lat, long) {
     .limit(20)
     .sort({ av_umbrellas: 1, name: 1 })
     .lean()
-    .cache();
+    .cache(time);
 }
 
 // GET SINGLE BATH
@@ -45,7 +49,7 @@ async function getBath(bid) {
 
 // RETURN A MANAGER'S BATHS LIST
 async function getBathGest(uid) {
-  return await Bath.find({ uid: uid }).sort({ nome: 1 }).lean();
+  return await Bath.find({ uid: uid }).sort({ nome: 1 }).lean().cache(time);
 }
 
 // UPDATE BATH INFO
