@@ -1,8 +1,11 @@
-const { Bath } = require('../models/bath');
+const { Bath } = require('../models/bath'),
+  { clearCache } = require('redis_mongoose');
 
 // ADD A BATH
 async function createBath(bath_data) {
-  return await Bath.create(bath_data);
+  const newBath = await Bath.create(bath_data);
+  clearCache();
+  return newBath;
 }
 
 // SEARCH FOR BATHS USING CITY AND REGION INFOS
@@ -14,7 +17,8 @@ async function getBathDispLoc(city, prov) {
   })
     .sort({ av_umbrellas: 1, name: 1 }) // asc
     .limit(20)
-    .lean();
+    .lean()
+    .cache();
 }
 
 // SEARCH FOR BATHS USING COORDINATES
@@ -30,12 +34,13 @@ async function getBathDispCoord(lat, long) {
   })
     .limit(20)
     .sort({ av_umbrellas: 1, name: 1 })
-    .lean();
+    .lean()
+    .cache();
 }
 
 // GET SINGLE BATH
 async function getBath(bid) {
-  return await Bath.findById(bid).lean();
+  return await Bath.findById(bid).lean().cache();
 }
 
 // RETURN A MANAGER'S BATHS LIST
@@ -45,28 +50,38 @@ async function getBathGest(uid) {
 
 // UPDATE BATH INFO
 async function updateBath(bid, bath_data) {
-  return await Bath.findByIdAndUpdate(bid, bath_data, { new: true }).lean();
+  const newBath = await Bath.findByIdAndUpdate(bid, bath_data, {
+    new: true,
+  }).lean();
+  clearCache();
+  return newBath;
 }
 
 // UPDATE NUMBER OF AVAILABLE UMBRELLAS
 async function updateUmbrellas(bid, available) {
-  return await Bath.findByIdAndUpdate(
+  const newBath = await Bath.findByIdAndUpdate(
     bid,
     { av_umbrellas: available },
     { new: true }
   ).lean();
+  clearCache();
+  return newBath;
 }
 
 // DELETE A BATH
 async function removeBath(bid) {
-  return await Bath.findByIdAndDelete(bid).lean();
+  const result = await Bath.findByIdAndDelete(bid).lean();
+  clearCache();
+  return result;
 }
 
-module.exports.createBath = createBath;
-module.exports.getBathDispLoc = getBathDispLoc;
-module.exports.getBathDispCoord = getBathDispCoord;
-module.exports.getBath = getBath;
-module.exports.getBathGest = getBathGest;
-module.exports.updateBath = updateBath;
-module.exports.updateUmbrellas = updateUmbrellas;
-module.exports.removeBath = removeBath;
+module.exports = {
+  createBath: createBath,
+  getBathDispLoc: getBathDispLoc,
+  getBathDispCoord: getBathDispCoord,
+  getBath: getBath,
+  getBathGest: getBathGest,
+  updateBath: updateBath,
+  updateUmbrellas: updateUmbrellas,
+  removeBath: removeBath,
+};

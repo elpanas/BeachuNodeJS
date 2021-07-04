@@ -13,6 +13,7 @@ const config = {
       useFindAndModify: false,
     },
   },
+  redisUrl: process.env.REDIS_URL,
 };
 
 module.exports = config;
