@@ -14,7 +14,7 @@ const config = {
     },
   },
   redis: {
-    uri: process.env.REDIS_URL,
+    redisUri: process.env.REDIS_URL,
     time: 120,
   },
 };

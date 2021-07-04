@@ -2,7 +2,7 @@ const mongoose = require('mongoose'),
   redisMongoose = require('redis_mongoose'),
   config = require('../config/config'),
   {
-    db: { dbUri, dbOptions },
+    db: { uri, options },
     redis: { redisUri },
   } = config,
   messageOk = 'Connected to MongoDB...',
@@ -11,6 +11,6 @@ const mongoose = require('mongoose'),
 redisMongoose.init(mongoose, redisUri);
 
 mongoose
-  .connect(dbUri, dbOptions)
+  .connect(uri, options)
   .then(() => console.log(messageOk))
   .catch((err) => console.error(errorMessage, err));
