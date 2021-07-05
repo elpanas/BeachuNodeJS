@@ -13,6 +13,15 @@ const express = require('express'),
   errorMessage = 'The establishment with the given id was not found',
   router = express.Router();
 
+// CREATE
+router.post('/', (req, res) => {
+  authManagement(req, res);
+  createBath(req.body)
+    .then(() => res.status(201).send())
+    .catch(() => res.status(400).send());
+});
+// --------------------------------------------------------------------
+
 // READ
 router.get('/disp/location/:loc/:prov', async (req, res) => {
   const result = await getBathDispLoc(req.params.loc, req.params.prov);
@@ -32,15 +41,6 @@ router.get('/bath/:id', async (req, res) => {
 router.get('/gest/:id', async (req, res) => {
   const result = await getBathGest(req.params.id);
   resultManagement(res, result);
-});
-// --------------------------------------------------------------------
-
-// CREATE
-router.post('/', (req, res) => {
-  authManagement(req, res);
-  createBath(req.body)
-    .then(() => res.status(201).send())
-    .catch(() => res.status(400).send());
 });
 // --------------------------------------------------------------------
 
