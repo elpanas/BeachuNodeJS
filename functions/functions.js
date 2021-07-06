@@ -17,5 +17,7 @@ function resultManagement(res, result) {
     : res.status(404).send(errorMessage);
 }
 
-module.exports.authManagement = authManagement;
-module.exports.resultManagement = resultManagement;
+module.exports = {
+  authManagement: authManagement,
+  resultManagement: resultManagement,
+};

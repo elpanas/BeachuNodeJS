@@ -1,21 +1,28 @@
-require('./db/db'); // DATABASE CONNECTIONS
 const express = require('express'), // FRAMEWORK
   app = express(),
+  cluster = require('cluster'),
   config = require('./config/config'), // CONFIGURATIONS
   compression = require('compression'), // MIDDLEWARES
   helmet = require('helmet'),
   restbath = require('./routes/restbath'), // ROUTES
   listenMessage = `Listening on port ${config.app.port}...`;
 
-// MIDDLEWARES ACTIVACTION
-app.use(helmet());
-app.use(compression());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+if (cluster.isMaster) {
+  for (let i = 0; i < config.numCPUs; i += 1) cluster.fork(); // Create a worker for each CPU
 
-// ROUTES
-app.get('/', (req, res) => res.send('BeachU Web Service'));
+  cluster.on('exit', () => cluster.fork()); // Listen for dying workers and replace them
+} else {
+  require('./db/db'); // DATABASE CONNECTIONS
+  // MIDDLEWARES ACTIVACTION
+  app.use(helmet());
+  app.use(compression());
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/bath', restbath);
+  // ROUTES
+  app.get('/', (req, res) => res.send('BeachU Web Service'));
 
-app.listen(config.app.port, () => console.log(listenMessage));
+  app.use('/api/bath', restbath);
+
+  app.listen(config.app.port, () => console.log(listenMessage));
+}

@@ -17,6 +17,7 @@ const config = {
     redisUri: process.env.REDIS_URL,
     time: 120,
   },
+  numCPUs: require('os').cpus().length,
 };
 
 module.exports = config;
