@@ -29,4 +29,4 @@ const mongoose = require('mongoose'),
   ),
   Bath = mongoose.model('stabilimenti', bathSchema);
 
-exports.Bath = Bath;
+module.exports.Bath = Bath;

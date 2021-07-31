@@ -1,12 +1,12 @@
 const mongoose = require('mongoose'),
   redisMongoose = require('redis_mongoose'),
   config = require('../config/config'),
+  messageOk = 'Connected to MongoDB...',
+  errorMessage = 'Could not connect to MongoDB...',
   {
     db: { uri, options },
     redis: { redisUri },
-  } = config,
-  messageOk = 'Connected to MongoDB...',
-  errorMessage = 'Could not connect to MongoDB...';
+  } = config;
 
 redisMongoose.init(mongoose, redisUri);
 

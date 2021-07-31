@@ -2,6 +2,7 @@ require('dotenv').config();
 const config = {
   app: {
     port: process.env.PORT || 3000,
+    auth: process.env.HASH_AUTH,
   },
   db: {
     uri: process.env.DB_URI,

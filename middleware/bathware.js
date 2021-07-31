@@ -3,7 +3,9 @@ const { Bath } = require('../models/bath'),
   config = require('../config/config'),
   {
     redis: { time },
-  } = config;
+  } = config,
+  cacheOptions = { ttl: time },
+  sortUmbrellaOptions = { av_umbrellas: 1, name: 1 };
 
 // ADD A BATH
 async function createBath(bath_data) {
@@ -19,10 +21,10 @@ async function getBathDispLoc(city, prov) {
     city: city,
     province: prov,
   })
-    .sort({ av_umbrellas: 1, name: 1 }) // asc
+    .sort(sortUmbrellaOptions) // asc
     .limit(20)
     .lean()
-    .cache({ ttl: time });
+    .cache(cacheOptions);
 }
 
 // SEARCH FOR BATHS USING COORDINATES
@@ -37,14 +39,14 @@ async function getBathDispCoord(lat, long) {
     av_umbrellas: { $gt: 0 },
   })
     .limit(20)
-    .sort({ av_umbrellas: 1, name: 1 })
+    .sort(sortUmbrellaOptions)
     .lean()
-    .cache({ ttl: time });
+    .cache(cacheOptions);
 }
 
 // GET SINGLE BATH
 async function getBath(bid) {
-  return await Bath.findById(bid).lean().cache({ ttl: time });
+  return await Bath.findById(bid).lean().cache(cacheOptions);
 }
 
 // RETURN A MANAGER'S BATHS LIST
@@ -52,7 +54,7 @@ async function getBathGest(uid) {
   return await Bath.find({ uid: uid })
     .sort({ nome: 1 })
     .lean()
-    .cache({ ttl: time });
+    .cache(cacheOptions);
 }
 
 // UPDATE BATH INFO

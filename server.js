@@ -26,3 +26,5 @@ if (cluster.isMaster) {
 
   app.listen(config.app.port, () => console.log(listenMessage));
 }
+
+//module.exports.server = server;
