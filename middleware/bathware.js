@@ -9,9 +9,8 @@ const { Bath } = require('../models/bath'),
 
 // ADD A BATH
 async function createBath(bath_data) {
-  const newBath = await Bath.create(bath_data);
   clearCache();
-  return newBath;
+  return await Bath.create(bath_data);
 }
 
 // SEARCH FOR BATHS USING CITY AND REGION INFOS
@@ -59,29 +58,27 @@ async function getBathGest(uid) {
 
 // UPDATE BATH INFO
 async function updateBath(bid, bath_data) {
-  const newBath = await Bath.findByIdAndUpdate(bid, bath_data, {
+  clearCache();
+  return await Bath.findByIdAndUpdate(bid, bath_data, {
     new: true,
   }).lean();
-  clearCache();
-  return newBath;
 }
 
 // UPDATE NUMBER OF AVAILABLE UMBRELLAS
 async function updateUmbrellas(bid, available) {
-  const newBath = await Bath.findByIdAndUpdate(
+  clearCache();
+  return await Bath.findByIdAndUpdate(
     bid,
     { av_umbrellas: available },
     { new: true }
   ).lean();
   clearCache();
-  return newBath;
 }
 
 // DELETE A BATH
 async function removeBath(bid) {
-  const result = await Bath.findByIdAndDelete(bid).lean();
   clearCache();
-  return result;
+  return await Bath.findByIdAndDelete(bid).lean();
 }
 
 module.exports = {
