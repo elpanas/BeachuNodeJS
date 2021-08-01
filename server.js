@@ -1,14 +1,14 @@
 const express = require('express'), // FRAMEWORK
   app = express(),
-  cluster = require('cluster'),
   config = require('./config/config'), // CONFIGURATIONS
   compression = require('compression'), // MIDDLEWARES
+  cluster = require('cluster'),
   helmet = require('helmet'),
   restbath = require('./routes/restbath'), // ROUTES
   listenMessage = `Listening on port ${config.app.port}...`;
 
 if (cluster.isMaster) {
-  for (let i = 0; i < config.numCPUs; i += 1) cluster.fork(); // Create a worker for each CPU
+  for (let i = 0; i <= config.numCPUs; i += 1) cluster.fork(); // Create a worker for each CPU
 
   cluster.on('exit', () => cluster.fork()); // Listen for dying workers and replace them
 } else {
