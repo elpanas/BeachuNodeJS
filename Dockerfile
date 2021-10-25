@@ -2,8 +2,10 @@ FROM node:14-alpine
 ENV NODE_ENV=production\ 
 MONGO_USER=admin \
 MONGO_PASSWORD=admin \
-MONGO_HOST=mongo \
-MONGO_PORT=27017 \
+MONGO_HOST="192.168.0.3" \
+MONGO_PORT1=40001 \
+MONGO_PORT2=40002 \
+MONGO_PORT3=40003 \
 WEB_SERVICE_PORT=3000
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]

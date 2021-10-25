@@ -14,3 +14,13 @@ mongoose
   .connect(uri, options)
   .then(() => console.log(messageOk))
   .catch((err) => console.error(errorMessage, err));
+/*
+  (async () => {
+    try {
+      await mongoose.connect(uri, options)
+      console.log(messageOk)
+    } catch (err) {
+      console.error(errorMessage, err)
+    }
+  })()
+*/

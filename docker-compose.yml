@@ -1,20 +1,8 @@
 version: '3.1'
 
 services:
-  # MONGODB
-  mongo:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-    ports:
-      - 27017:27017
-
   # MONGO-EXPRESS
   mongo-dashboard:
-    depends_on:
-      - mongo
     image: mongo-express
     restart: always
     ports:
@@ -22,7 +10,7 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin
-      ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/
+      ME_CONFIG_MONGODB_URL: 'mongodb://192.168.0.3:40001,192.168.0.3:40002,192.168.0.3:40003/?replicaSet=beachu_set'
 
   # REDIS DB
   redis:
