@@ -49,9 +49,9 @@ router.get('/gest/:id', async (req, res) => {
 // --------------------------------------------------------------------
 
 // UPDATE UMBRELLAS
-router.patch('/disp', (req, res) => {
+router.patch('/:id', (req, res) => {
   authManagement(req, res);
-  updateUmbrellas(req.body.bid, req.body.av_umbrellas)
+  updateUmbrellas(req.params.id, req.body.av_umbrellas)
     .then(() => res.status(200).send())
     .catch(() => res.status(404).send(errorMessage));
 });

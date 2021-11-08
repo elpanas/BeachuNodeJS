@@ -9,7 +9,7 @@ services:
       - mongodata1:/data/db
     ports:
       - '40001:27017'
-    command: mongod --replSet beachu_set
+    command: mongod --replSet beachu_set --bind_ip 0.0.0.0
     networks:
       - beachu-cluster
 
@@ -21,7 +21,7 @@ services:
       - mongodata2:/data/db
     ports:
       - '40002:27017'
-    command: mongod --replSet beachu_set
+    command: mongod --replSet beachu_set --bind_ip 0.0.0.0
     networks:
       - beachu-cluster
 
@@ -33,7 +33,7 @@ services:
       - mongodata3:/data/db
     ports:
       - '40003:27017'
-    command: mongod --replSet beachu_set
+    command: mongod --replSet beachu_set --bind_ip 0.0.0.0
     networks:
       - beachu-cluster
 

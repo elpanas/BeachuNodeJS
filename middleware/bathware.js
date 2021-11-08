@@ -28,40 +28,58 @@ async function getBathDispLoc(city, prov) {
 
 // SEARCH FOR BATHS USING COORDINATES
 async function getBathDispCoord(lat, long) {
-  return await Bath.find({
-    location: {
-      $near: {
-        $geometry: { type: 'Point', coordinates: [long, lat] },
-        $maxDistance: 3000, // meters
+  try {
+    return await Bath.find({
+      location: {
+        $near: {
+          $geometry: { type: 'Point', coordinates: [long, lat] },
+          $maxDistance: 10000, // meters
+        },
       },
-    },
-    av_umbrellas: { $gt: 0 },
-  })
-    .limit(20)
-    .sort(sortUmbrellaOptions)
-    .lean()
-    .cache(cacheOptions);
+      av_umbrellas: { $gt: 0 },
+    })
+      .limit(20)
+      .sort(sortUmbrellaOptions)
+      .lean()
+      .cache(cacheOptions);
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 }
 
 // GET SINGLE BATH
 async function getBath(bid) {
-  return await Bath.findById(bid).lean().cache(cacheOptions);
+  try {
+    return await Bath.find({ _id: bid }).lean().cache(cacheOptions);
+  } catch (e) {
+    return null;
+  }
 }
 
 // RETURN A MANAGER'S BATHS LIST
 async function getBathGest(uid) {
-  return await Bath.find({ uid: uid })
-    .sort({ nome: 1 })
-    .lean()
-    .cache(cacheOptions);
+  try {
+    return await Bath.find({ uid: uid })
+      .sort({ nome: 1 })
+      .lean()
+      .cache(cacheOptions);
+  } catch (e) {
+    return null;
+  }
 }
 
 // UPDATE BATH INFO
 async function updateBath(bid, bath_data) {
   clearCache();
-  return await Bath.findByIdAndUpdate(bid, bath_data, {
-    new: true,
-  }).lean();
+  const check = await Bath.exists({ _id: bid });
+  if (check)
+    return await Bath.findByIdAndUpdate(bid, bath_data, {
+      new: true,
+    }).lean();
+  else {
+    return null;
+  }
 }
 
 // UPDATE NUMBER OF AVAILABLE UMBRELLAS
@@ -72,7 +90,6 @@ async function updateUmbrellas(bid, available) {
     { av_umbrellas: available },
     { new: true }
   ).lean();
-  clearCache();
 }
 
 // DELETE A BATH

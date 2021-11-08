@@ -20,6 +20,6 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
-**/test
+#**/test
 **/.vscode
 README.md

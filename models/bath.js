@@ -22,11 +22,11 @@ const mongoose = require('mongoose'),
     av_umbrellas: numberOpts,
     uid: stringOpts,
     phone: String,
-  }).index(
-    { name: 1, city: 1, province: 1 },
-    { location: '2dsphere' },
-    { unique: true }
-  ),
-  Bath = mongoose.model('stabilimenti', bathSchema);
+  });
+
+bathSchema.index({ location: '2dsphere' });
+bathSchema.index({ name: 1, city: 1, province: 1 }, { unique: true });
+
+const Bath = mongoose.model('stabilimenti', bathSchema);
 
 module.exports.Bath = Bath;

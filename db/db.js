@@ -8,19 +8,22 @@ const mongoose = require('mongoose'),
     redis: { redisUri },
   } = config;
 
-redisMongoose.init(mongoose, redisUri);
+module.exports = () => {
+  redisMongoose.init(mongoose, redisUri);
 
-mongoose
-  .connect(uri, options)
-  .then(() => console.log(messageOk))
-  .catch((err) => console.error(errorMessage, err));
+  mongoose
+    .connect(uri, options)
+    .then(() => console.log(messageOk))
+    .catch((err) => console.error(errorMessage, err));
+};
+
 /*
-  (async () => {
-    try {
-      await mongoose.connect(uri, options)
-      console.log(messageOk)
-    } catch (err) {
-      console.error(errorMessage, err)
-    }
-  })()
+(async () => {
+  try {
+    await mongoose.connect(uri, options);
+    console.log(messageOk);
+  } catch (err) {
+    console.error(errorMessage, err);
+  }
+})();
 */

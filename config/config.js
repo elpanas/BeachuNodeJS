@@ -5,22 +5,22 @@ const mongoUser = process.env.MONGO_USER,
   mongoPort1 = process.env.MONGO_PORT1,
   mongoPort2 = process.env.MONGO_PORT2,
   mongoPort3 = process.env.MONGO_PORT3,
+  mongoDb = process.env.MONGO_DB,
+  mongoDbTest = process.env.DB_URI_TEST,
   config = {
     app: {
       port: process.env.WEB_SERVICE_PORT || 3000,
       auth: process.env.HASH_AUTH,
     },
     db: {
-      // uri: process.env.DB_URI,
-      uri: `mongodb://${mongoHost}:${mongoPort1},${mongoHost}:${mongoPort2},${mongoHost}:${mongoPort3}/`,
+      uri: process.env.NODE_ENV == 'test' ? mongoDbTest : process.env.DB_URI,
+      //uri: `mongodb://${mongoHost}:${mongoPort1},${mongoHost}:${mongoPort2},${mongoHost}:${mongoPort3}/${mongoDb}?replicaSet=beachu_set`,
       // uri: 'mongodb://localhost:27017/',
       // uri: `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}/`,
       options: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useCreateIndex: true,
         autoIndex: false,
-        useFindAndModify: false,
       },
     },
     redis: {
