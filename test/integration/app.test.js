@@ -8,34 +8,50 @@ const request = require('supertest'),
 
 let server, auth, bid, uid, lat, long, patchedData;
 
+beforeAll(() => {
+  process.env.NODE_ENV = 'test';
+});
+beforeEach(() => {
+  server = require('../../app');
+  app = request(server);
+  auth = config.app.auth;
+  bid = '617c09616263be33dccdf5a2';
+  uid = 'CdGMzNaQZZW6ckRqcEeWxFhauRa2';
+  lat = 41.4566583;
+  long = 15.5343864;
+  patchedData = {
+    av_umbrellas: 145,
+  };
+});
+afterEach(() => server.close());
+afterAll(async () => {
+  await mongoose.disconnect();
+});
+
 const execPost = async () => {
   const newBath = generatePostFakeInfos();
-  return await request(server)
+  return await app
     .post('/api/bath/')
     .set({ Authorization: auth })
     .send(newBath);
 };
 
 const execGetBath = async () => {
-  return await request(server)
-    .get(`/api/bath/bath/${bid}`)
-    .set({ Authorization: auth });
+  return await app.get(`/api/bath/bath/${bid}`).set({ Authorization: auth });
 };
 
 const execGetGest = async () => {
-  return await request(server)
-    .get(`/api/bath/gest/${uid}`)
-    .set({ Authorization: auth });
+  return await app.get(`/api/bath/gest/${uid}`).set({ Authorization: auth });
 };
 
 const execGetCoord = async () => {
-  return await request(server)
+  return await app
     .get(`/api/bath/disp/coord/${lat}/${long}`)
     .set({ Authorization: auth });
 };
 
 const execPatch = async () => {
-  return await request(server)
+  return await app
     .patch(`/api/bath/${bid}`)
     .set({ Authorization: auth })
     .send(patchedData);
@@ -43,38 +59,17 @@ const execPatch = async () => {
 
 const execPut = async () => {
   const updatedBath = generatePutFakeInfos();
-  return await request(server)
+  return await app
     .put(`/api/bath/${bid}`)
     .set({ Authorization: auth })
     .send(updatedBath);
 };
 
 const execDelete = async () => {
-  return await request(server)
-    .delete(`/api/bath/${bid}`)
-    .set({ Authorization: `${auth}` });
+  return await app.delete(`/api/bath/${bid}`).set({ Authorization: `${auth}` });
 };
 
 describe('/api/bath', () => {
-  beforeAll(() => {
-    process.env.NODE_ENV = 'test';
-  });
-  beforeEach(() => {
-    server = require('../../app');
-    auth = config.app.auth;
-    bid = '617c09616263be33dccdf5a2';
-    uid = 'CdGMzNaQZZW6ckRqcEeWxFhauRa2';
-    lat = 41.4566583;
-    long = 15.5343864;
-    patchedData = {
-      av_umbrellas: 145,
-    };
-  });
-  afterEach(() => server.close());
-  afterAll(async () => {
-    await mongoose.disconnect();
-  });
-
   describe('POST /', () => {
     it('should post a new bath', async () => {
       const res = await execPost();
@@ -97,7 +92,6 @@ describe('/api/bath', () => {
   describe('GET', () => {
     it('should get all the bath in the radius', async () => {
       const res = await execGetCoord();
-
       expect(res.statusCode).toBe(200);
       expect(res.headers['content-type']).toEqual(
         expect.stringContaining('json')
@@ -143,7 +137,7 @@ describe('/api/bath', () => {
     it('/bath/:id should fail because bath does not exist', async () => {
       bid = 'fakeBathId';
       const res = await execGetBath();
-      expect(res.statusCode).toBe(404);
+      expect(res.statusCode).toBe(400);
     });
 
     it('/gest/:id should fail because of lack of auth', async () => {
@@ -152,7 +146,7 @@ describe('/api/bath', () => {
       expect(res.statusCode).toBe(401);
     });
 
-    it('/bath/:id It should fail because user ID does not exist', async () => {
+    it('/bath/:id It should fail because of wrong user ID', async () => {
       uid = 'fakeUserId';
       const res = await execGetGest();
       expect(res.statusCode).toBe(404);
@@ -171,11 +165,18 @@ describe('/api/bath', () => {
       expect(res.statusCode).toBe(401);
     });
 
-    it('/:id should fail because of missing resource', async () => {
-      bid = 'fakeBathId';
+    it('/:id should fail because of bath ID does not exist', async () => {
+      bid = '617c09616263be33dccdf5a5';
       const res = await execPatch();
       expect(res.statusCode).toBe(404);
     });
+
+    it('/:id should fail because of wrong bath ID', async () => {
+      bid = 'fakeBathId';
+      const res = await execPatch();
+      expect(res.statusCode).toBe(400);
+    });
+
     // END FAIL
   });
 
@@ -189,6 +190,12 @@ describe('/api/bath', () => {
       auth = '';
       const res = await execPut();
       expect(res.statusCode).toBe(401);
+    });
+
+    it('/:id should fail because of wrong bid', async () => {
+      bid = 'fakeBid';
+      const res = await execPut();
+      expect(res.statusCode).toBe(400);
     });
     //END FAIL
   });
@@ -209,7 +216,7 @@ describe('/api/bath', () => {
     it('/:id should fail beceause of a missing resource', async () => {
       bid = 'fakeBathId';
       const res = await execDelete();
-      expect(res.statusCode).toBe(404);
+      expect(res.statusCode).toBe(400);
     });
     // END FAIL
   });

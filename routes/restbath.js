@@ -9,69 +9,71 @@ const express = require('express'),
     updateBath,
     updateUmbrellas,
   } = require('../middleware/bathware'),
-  { authManagement, resultManagement } = require('../functions/functions'),
-  errorMessage = 'The establishment with the given id was not found',
+  {
+    authManagement,
+    postResultManagement,
+    jsonResultManagement,
+    resultManagement,
+  } = require('../functions/functions'),
   router = express.Router();
 
 // CREATE
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   authManagement(req, res);
-  createBath(req.body)
-    .then(() => res.status(201).send())
-    .catch(() => res.status(400).send());
+  const result = await createBath(req.body);
+  postResultManagement(res, result);
 });
 // --------------------------------------------------------------------
 
 // READ
+/*
 router.get('/disp/location/:loc/:prov', async (req, res) => {
   authManagement(req, res);
   const result = await getBathDispLoc(req.params.loc, req.params.prov);
-  resultManagement(res, result);
+  jsonResultManagement(res, result);
 });
+*/
 
 router.get('/disp/coord/:lat/:long', async (req, res) => {
   authManagement(req, res);
   const result = await getBathDispCoord(req.params.lat, req.params.long);
-  resultManagement(res, result);
+  jsonResultManagement(res, result);
 });
 
 router.get('/bath/:id', async (req, res) => {
   authManagement(req, res);
   const result = await getBath(req.params.id);
-  resultManagement(res, result);
+  jsonResultManagement(res, result);
 });
 
 router.get('/gest/:id', async (req, res) => {
   authManagement(req, res);
   const result = await getBathGest(req.params.id);
-  resultManagement(res, result);
+  jsonResultManagement(res, result);
 });
 // --------------------------------------------------------------------
 
 // UPDATE UMBRELLAS
-router.patch('/:id', (req, res) => {
+router.patch('/:id', async (req, res) => {
   authManagement(req, res);
-  updateUmbrellas(req.params.id, req.body.av_umbrellas)
-    .then(() => res.status(200).send())
-    .catch(() => res.status(404).send(errorMessage));
+  const result = await updateUmbrellas(req.params.id, req.body.av_umbrellas);
+  resultManagement(res, result);
 });
 // --------------------------------------------------------------------
 
 // UPDATE WHOLE BATH
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   authManagement(req, res);
-  updateBath(req.params.bid, req.body)
-    .then(() => res.status(200).send())
-    .catch(() => res.status(404).send(errorMessage));
+  const result = await updateBath(req.params.id, req.body);
+  resultManagement(res, result);
 });
 // --------------------------------------------------------------------
 
 // DELETE
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   authManagement(req, res);
-  removeBath(req.params.id)
-    .then(() => res.status(200).send())
-    .catch(() => res.status(404).send(errorMessage));
+  const result = await removeBath(req.params.id);
+  resultManagement(res, result);
 });
 // --------------------------------------------------------------------
 

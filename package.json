@@ -12,13 +12,9 @@
     "url": "git://github.com/elpanas/BeachuNodeJS.git"
   },
   "license": "MIT",
-  "jest": {
-    "verbose": true,
-    "testEnvironment": "node"
-  },
   "scripts": {
     "start": "node server.js",
-    "test": "jest --forceExit"
+    "test": "jest --verbose --coverage"
   },
   "dependencies": {
     "compression": "^1.7.4",

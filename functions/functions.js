@@ -14,19 +14,45 @@ function authManagement(req, res) {
   }
 }
 
-// QUERY RESULT MANAGEMENT
-function resultManagement(res, result) {
+function postResultManagement(res, result) {
   try {
-    if (typeof result !== 'undefined') {
-      if (result != null) {
-        if (result.length > 0) {
-          return res.status(200).json(result);
-        } else {
-          return res.status(404).send(errorMessage);
-        }
+    if (typeof result !== 'undefined' && result !== false && result !== null) {
+      return res.status(201).send();
+    } else {
+      return res.status(400).send(errorMessage);
+    }
+  } catch (e) {
+    return 0;
+  }
+}
+
+// QUERY RESULT MANAGEMENT
+function jsonResultManagement(res, result) {
+  try {
+    if (typeof result !== 'undefined' && result !== false) {
+      if (result != null && Object.keys(result).length > 0) {
+        return res.status(200).json(result);
       } else {
         return res.status(404).send(errorMessage);
       }
+    } else {
+      return res.status(400).send();
+    }
+  } catch (e) {
+    return 0;
+  }
+}
+
+function resultManagement(res, result) {
+  try {
+    if (typeof result !== 'undefined' && result !== false) {
+      if (result !== null && Object.keys(result).length > 0) {
+        return res.status(200).send();
+      } else {
+        return res.status(404).send(errorMessage);
+      }
+    } else {
+      return res.status(400).send();
     }
   } catch (e) {
     return 0;
@@ -114,6 +140,8 @@ function generateWrongPostFakeInfos() {
 
 module.exports = {
   authManagement: authManagement,
+  postResultManagement: postResultManagement,
+  jsonResultManagement: jsonResultManagement,
   resultManagement: resultManagement,
   generatePostFakeInfos: generatePostFakeInfos,
   generatePutFakeInfos: generatePutFakeInfos,

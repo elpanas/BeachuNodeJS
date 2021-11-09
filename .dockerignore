@@ -22,4 +22,5 @@
 **/values.dev.yaml
 #**/test
 **/.vscode
+**/.coverage
 README.md
