@@ -24,7 +24,7 @@ const mongoose = require('mongoose'),
     phone: String,
   });
 
-bathSchema.index({ location: '2dsphere' });
+//bathSchema.index({ location: '2dsphere' });
 bathSchema.index({ name: 1, city: 1, province: 1 }, { unique: true });
 
 const Bath = mongoose.model('stabilimenti', bathSchema);

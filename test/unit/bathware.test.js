@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
   {
+    createGeoIndex,
     generatePostFakeInfos,
     generatePutFakeInfos,
   } = require('../../functions/functions'),
@@ -35,6 +36,7 @@ describe('MIDDLEWARES', () => {
   describe('CREATE', () => {
     test('createBath', async () => {
       const result = await createBath(newBath);
+      await createGeoIndex();
       expect(result).not.toBeNull();
     });
 

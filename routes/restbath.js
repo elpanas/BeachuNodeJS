@@ -21,7 +21,7 @@ const express = require('express'),
 router.post('/', async (req, res) => {
   authManagement(req, res);
   const result = await createBath(req.body);
-  postResultManagement(res, result);
+  await postResultManagement(res, result);
 });
 // --------------------------------------------------------------------
 

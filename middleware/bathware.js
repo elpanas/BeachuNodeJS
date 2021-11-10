@@ -59,7 +59,7 @@ async function getBath(bid) {
 // RETURN A MANAGER'S BATHS LIST
 async function getBathGest(uid) {
   return await Bath.find({ uid: uid })
-    .sort({ nome: 1 })
+    .sort({ name: 1 })
     .lean()
     .cache(cacheOptions);
 }

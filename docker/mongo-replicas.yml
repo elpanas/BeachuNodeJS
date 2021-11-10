@@ -5,6 +5,8 @@ services:
     image: mongo
     restart: always
     container_name: mongodb1
+    environment:
+      MONGO_INITDB_DATABASE: beachudb
     volumes:
       - mongodata1:/data/db
     ports:
@@ -17,6 +19,8 @@ services:
     image: mongo
     restart: always
     container_name: mongodb2
+    environment:
+      MONGO_INITDB_DATABASE: beachudb
     volumes:
       - mongodata2:/data/db
     ports:
@@ -29,6 +33,8 @@ services:
     image: mongo
     restart: always
     container_name: mongodb3
+    environment:
+      MONGO_INITDB_DATABASE: beachudb
     volumes:
       - mongodata3:/data/db
     ports:

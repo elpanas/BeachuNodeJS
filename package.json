@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "test": "jest --verbose --coverage"
+    "test": "jest --verbose --coverage --forceExit"
   },
   "dependencies": {
     "compression": "^1.7.4",
@@ -28,6 +28,7 @@
   "devDependencies": {
     "faker": "^5.5.3",
     "jest": "^27.3.1",
+    "loadtest": "^5.1.2",
     "mongodb-memory-server": "^8.0.2",
     "redis-memory-server": "^0.5.0",
     "supertest": "^6.1.6"

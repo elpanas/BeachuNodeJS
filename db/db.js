@@ -8,14 +8,12 @@ const mongoose = require('mongoose'),
     redis: { redisUri },
   } = config;
 
-module.exports = () => {
-  redisMongoose.init(mongoose, redisUri);
+redisMongoose.init(mongoose, redisUri);
 
-  mongoose
-    .connect(uri, options)
-    .then(() => console.log(messageOk))
-    .catch((err) => console.error(errorMessage, err));
-};
+mongoose
+  .connect(uri, options)
+  .then(() => console.log(messageOk))
+  .catch((err) => console.error(errorMessage, err));
 
 /*
 (async () => {

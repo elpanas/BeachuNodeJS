@@ -2,10 +2,17 @@ const headerType = 'WWW-Authenticate',
   headerMessage = 'Basic realm: "Restricted Area"',
   errorMessage = 'Bathing establishments were not found',
   faker = require('faker/locale/it'),
+  mongoose = require('mongoose'),
   config = require('../config/config'),
   {
     app: { auth },
   } = config;
+
+async function createGeoIndex() {
+  await mongoose.connection.db.createIndex('stabilimentis', {
+    location: '2dsphere',
+  });
+}
 
 // AUTHORIZATION MANAGEMENT
 function authManagement(req, res) {
@@ -14,48 +21,41 @@ function authManagement(req, res) {
   }
 }
 
-function postResultManagement(res, result) {
+async function postResultManagement(res, result) {
   try {
-    if (typeof result !== 'undefined' && result !== false && result !== null) {
+    if (typeof result !== 'undefined' && result != false) {
+      await createGeoIndex();
       return res.status(201).send();
     } else {
       return res.status(400).send(errorMessage);
     }
   } catch (e) {
-    return 0;
+    console.log(e);
+    return res.status(400).send();
   }
 }
 
 // QUERY RESULT MANAGEMENT
 function jsonResultManagement(res, result) {
   try {
-    if (typeof result !== 'undefined' && result !== false) {
-      if (result != null && Object.keys(result).length > 0) {
+    if (typeof result !== 'undefined' && result != false) {
+      if (result != null && Object.keys(result).length > 0)
         return res.status(200).json(result);
-      } else {
-        return res.status(404).send(errorMessage);
-      }
     } else {
       return res.status(400).send();
     }
   } catch (e) {
-    return 0;
+    return res.status(400).send();
   }
 }
 
 function resultManagement(res, result) {
-  try {
-    if (typeof result !== 'undefined' && result !== false) {
-      if (result !== null && Object.keys(result).length > 0) {
-        return res.status(200).send();
-      } else {
-        return res.status(404).send(errorMessage);
-      }
-    } else {
-      return res.status(400).send();
+  if (typeof result !== 'undefined' && result) {
+    if (Object.keys(result).length > 0) {
+      return res.status(200).send();
     }
-  } catch (e) {
-    return 0;
+  } else {
+    return res.status(400).send();
   }
 }
 
@@ -140,6 +140,7 @@ function generateWrongPostFakeInfos() {
 
 module.exports = {
   authManagement: authManagement,
+  createGeoIndex: createGeoIndex,
   postResultManagement: postResultManagement,
   jsonResultManagement: jsonResultManagement,
   resultManagement: resultManagement,
