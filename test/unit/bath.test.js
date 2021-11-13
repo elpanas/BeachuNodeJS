@@ -2,7 +2,7 @@ const {
     generatePostFakeInfos,
     generateMissingPostFakeInfos,
     generateWrongPostFakeInfos,
-  } = require('../../functions/functions'),
+  } = require('../aux-functions'),
   { Bath } = require('../../models/bath');
 
 jest.useFakeTimers();

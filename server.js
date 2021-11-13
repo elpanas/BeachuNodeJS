@@ -7,4 +7,5 @@ if (cluster.isMaster) {
   cluster.on('exit', () => cluster.fork()); // Listen for dying workers and replace them
 } else {
   require('./app');
+  require('./db/db');
 }

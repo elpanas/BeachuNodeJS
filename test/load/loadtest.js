@@ -1,4 +1,5 @@
 const loadtest = require('loadtest');
+const util = require('util');
 const { app: auth } = require('../../config/config');
 const lat = 41.4566583,
   long = 15.5343864;
@@ -15,10 +16,7 @@ function statusCallback(error, result, latency) {
   console.log('Request loadtest() instance index: ', result.instanceIndex);
 }
 const optionsGet = {
-  url: `http://localhost:3000/api/bath/bath/1`,
-  headers: {
-    Authorization: auth,
-  },
+  url: `http://localhost:3000/api/bath/disp/coord/${lat}/${long}`,
   maxRequests: 1000,
 };
 
@@ -28,4 +26,5 @@ loadtest.loadTest(optionsGet, function (error, result) {
   }
   console.log(`Total requests: ${result.totalRequests}`);
   console.log(`Total Time: ${result.totalTimeSeconds}`);
+  console.log(`Latency: ${util.inspect(result, false, null, true)}`);
 });

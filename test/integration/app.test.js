@@ -1,10 +1,7 @@
 const request = require('supertest'),
   mongoose = require('mongoose'),
   config = require('../../config/config'),
-  {
-    generatePostFakeInfos,
-    generatePutFakeInfos,
-  } = require('../../functions/functions');
+  { generatePostFakeInfos, generatePutFakeInfos } = require('../aux-functions');
 
 let server, auth, bid, uid, lat, long, patchedData;
 
@@ -13,6 +10,7 @@ beforeAll(() => {
 });
 beforeEach(() => {
   server = require('../../app');
+  require('../db-test');
   auth = config.app.auth;
   bid = '617c09616263be33dccdf5a2';
   uid = 'CdGMzNaQZZW6ckRqcEeWxFhauRa2';
@@ -37,9 +35,7 @@ const execPost = async () => {
 };
 
 const execGetBath = async () => {
-  return await request(server)
-    .get(`/api/bath/bath/${bid}`)
-    .set({ Authorization: auth });
+  return await request(server).get(`/api/bath/bath/${bid}`);
 };
 
 const execGetGest = async () => {
@@ -49,9 +45,7 @@ const execGetGest = async () => {
 };
 
 const execGetCoord = async () => {
-  return await request(server)
-    .get(`/api/bath/disp/coord/${lat}/${long}`)
-    .set({ Authorization: auth });
+  return await request(server).get(`/api/bath/disp/coord/${lat}/${long}`);
 };
 
 const execPatch = async () => {
@@ -80,6 +74,9 @@ describe('/api/bath', () => {
     it('should post a new bath', async () => {
       const res = await execPost();
       expect(res.statusCode).toBe(201);
+      expect(res.headers['content-type']).toEqual(
+        expect.stringContaining('json')
+      );
     });
     // FAIL
     it('should fail because of lack of authorization', async () => {
@@ -122,23 +119,11 @@ describe('/api/bath', () => {
     });
     // FAIL
 
-    it('/disp/coord/:lat/:long should fail because of lack of auth', async () => {
-      auth = '';
-      const res = await execGetCoord();
-      expect(res.statusCode).toBe(401);
-    });
-
     it('/disp/coord/:lat/:long should fail because of no bathes', async () => {
       lat = 0.0;
       long = 0.0;
       const res = await execGetCoord();
       expect(res.statusCode).toBe(400);
-    });
-
-    it('/bath/:id should fail because of lack of auth', async () => {
-      auth = '';
-      const res = await execGetBath();
-      expect(res.statusCode).toBe(401);
     });
 
     it('/bath/:id should fail because bath does not exist', async () => {

@@ -14,11 +14,12 @@ const config = {
     auth: process.env.HASH_AUTH,
   },
   db: {
-    uri: process.env.DB_URI_TEST == 'test' ? mongoDbTest : process.env.DB_URI,
+    uri: process.env.DB_URI,
     // uri: `mongodb://${mongoHost}:${mongoPort1},${mongoHost}:${mongoPort2},${mongoHost}:${mongoPort3}/${mongoDb}?replicaSet=beachu_set`,
     // uri: 'mongodb://localhost:27017/',
     // uri: `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}/`,
     options: {
+      useUnifiedTopology: true,
       autoIndex: false,
       autoCreate: true,
     },

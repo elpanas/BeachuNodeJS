@@ -1,9 +1,6 @@
 const mongoose = require('mongoose'),
-  {
-    createGeoIndex,
-    generatePostFakeInfos,
-    generatePutFakeInfos,
-  } = require('../../functions/functions'),
+  { generatePostFakeInfos, generatePutFakeInfos } = require('../aux-functions'),
+  { createGeoIndex } = require('../../functions/functions'),
   {
     createBath,
     getBathDispCoord,
@@ -21,7 +18,7 @@ beforeAll(() => {
   newBath = generatePostFakeInfos();
 });
 beforeEach(() => {
-  require('../../db/db-test');
+  require('../db-test');
   bid = '617c09616263be33dccdf5a2';
   uid = 'CdGMzNaQZZW6ckRqcEeWxFhauRa2';
   lat = 41.4566583;
@@ -38,6 +35,7 @@ describe('MIDDLEWARES', () => {
       const result = await createBath(newBath);
       await createGeoIndex();
       expect(result).not.toBeNull();
+      expect(result).toHaveProperty('_id');
     });
 
     test('createBath Fail', async () => {
