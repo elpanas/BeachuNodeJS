@@ -1,19 +1,19 @@
-const router = require('express').Router(),
-  {
-    createBath,
-    getBathDispCoord,
-    getBath,
-    getBathGest,
-    removeBath,
-    updateBath,
-    updateUmbrellas,
-  } = require('../middleware/bathware'),
-  {
-    postResultManagement,
-    jsonResultManagement,
-    resultManagement,
-  } = require('../functions/functions'),
-  authManagement = require('../middleware/auth');
+const router = require('express').Router();
+const {
+  createBath,
+  getBathDispCoord,
+  getBath,
+  getBathGest,
+  removeBath,
+  updateBath,
+  updateUmbrellas,
+} = require('../middleware/bathware');
+const {
+  postResultManagement,
+  jsonResultManagement,
+  resultManagement,
+} = require('../functions/functions');
+const authManagement = require('../middleware/auth');
 
 // CREATE
 router.post('/', authManagement, async (req, res) => {
@@ -23,14 +23,6 @@ router.post('/', authManagement, async (req, res) => {
 // --------------------------------------------------------------------
 
 // READ
-/*
-router.get('/disp/location/:loc/:prov', async (req, res) => {
-  authManagement(req, res);
-  const result = await getBathDispLoc(req.params.loc, req.params.prov);
-  jsonResultManagement(res, result);
-});
-*/
-
 router.get('/disp/coord/:lat/:long', async (req, res) => {
   const result = await getBathDispCoord(req.params.lat, req.params.long);
   jsonResultManagement(res, result);
@@ -47,14 +39,14 @@ router.get('/gest/:id', authManagement, async (req, res) => {
 });
 // --------------------------------------------------------------------
 
-// UPDATE UMBRELLAS
+// UPDATE umbrellas
 router.patch('/:id', authManagement, async (req, res) => {
   const result = await updateUmbrellas(req.params.id, req.body.av_umbrellas);
   resultManagement(res, result);
 });
 // --------------------------------------------------------------------
 
-// UPDATE WHOLE BATH
+// UPDATE whole bath
 router.put('/:id', authManagement, async (req, res) => {
   const result = await updateBath(req.params.id, req.body);
   resultManagement(res, result);

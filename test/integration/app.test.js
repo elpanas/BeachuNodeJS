@@ -1,9 +1,19 @@
-const request = require('supertest'),
-  mongoose = require('mongoose'),
-  config = require('../../config/config'),
-  { generatePostFakeInfos, generatePutFakeInfos } = require('../aux-functions');
+/* eslint-disable no-undef */
+const request = require('supertest');
+const mongoose = require('mongoose');
+const config = require('../../config/config');
+const {
+  generatePostFakeInfos,
+  generatePutFakeInfos,
+} = require('../aux-functions');
 
-let server, auth, bid, uid, lat, long, patchedData;
+let server;
+let auth;
+let bid;
+let uid;
+let lat;
+let long;
+let patchedData;
 
 beforeAll(() => {
   process.env.NODE_ENV = 'test';
@@ -28,46 +38,46 @@ afterAll(async () => {
 
 const execPost = async () => {
   const newBath = generatePostFakeInfos();
-  return await request(server)
+  return request(server)
     .post('/api/bath/')
     .set({ Authorization: auth })
     .send(newBath);
 };
 
-const execGetBath = async () => {
-  return await request(server).get(`/api/bath/bath/${bid}`);
-};
+const execGetBath = async () => request(server).get(`/api/bath/bath/${bid}`);
 
-const execGetGest = async () => {
-  return await request(server)
-    .get(`/api/bath/gest/${uid}`)
-    .set({ Authorization: auth });
-};
+const execGetGest = async () =>
+  request(server).get(`/api/bath/gest/${uid}`).set({ Authorization: auth });
 
-const execGetCoord = async () => {
-  return await request(server).get(`/api/bath/disp/coord/${lat}/${long}`);
-};
+const execGetCoord = async () =>
+  request(server).get(`/api/bath/disp/coord/${lat}/${long}`);
 
-const execPatch = async () => {
-  return await request(server)
+const execPatch = async () =>
+  request(server)
     .patch(`/api/bath/${bid}`)
     .set({ Authorization: auth })
     .send(patchedData);
-};
 
 const execPut = async () => {
   const updatedBath = generatePutFakeInfos();
-  return await request(server)
+  return request(server)
     .put(`/api/bath/${bid}`)
     .set({ Authorization: auth })
     .send(updatedBath);
 };
 
-const execDelete = async () => {
-  return await request(server)
+const execDelete = async () =>
+  request(server)
     .delete(`/api/bath/${bid}`)
     .set({ Authorization: `${auth}` });
-};
+
+describe('/', () => {
+  it('should return 200 status code and welcome message', async () => {
+    const res = await request(server).get(`/`);
+    expect(res.statusCode).toBe(200);
+    expect('BeachU Web Service');
+  });
+});
 
 describe('/api/bath', () => {
   describe('POST /', () => {
@@ -189,7 +199,7 @@ describe('/api/bath', () => {
       const res = await execPut();
       expect(res.statusCode).toBe(400);
     });
-    //END FAIL
+    // END FAIL
   });
 
   describe('DELETE', () => {
@@ -211,5 +221,12 @@ describe('/api/bath', () => {
       expect(res.statusCode).toBe(400);
     });
     // END FAIL
+  });
+});
+
+describe('/api/clustertest', () => {
+  it('should return 200 status code', async () => {
+    const res = await request(server).get(`/api/clustertest`);
+    expect(res.statusCode).toBe(200);
   });
 });

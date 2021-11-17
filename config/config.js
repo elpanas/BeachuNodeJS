@@ -1,12 +1,13 @@
 require('dotenv').config();
-const mongoUser = process.env.MONGO_USER,
-  mongoPassword = process.env.MONGO_PASSWORD,
-  mongoHost = process.env.MONGO_HOST,
-  mongoPort1 = process.env.MONGO_PORT1,
-  mongoPort2 = process.env.MONGO_PORT2,
-  mongoPort3 = process.env.MONGO_PORT3,
-  mongoDb = process.env.MONGO_DB,
-  mongoDbTest = process.env.DB_URI_TEST;
+
+const mongoUser = process.env.MONGO_USER;
+const mongoPassword = process.env.MONGO_PASSWORD;
+const mongoHost = process.env.MONGO_HOST;
+const mongoPort1 = process.env.MONGO_PORT1;
+const mongoPort2 = process.env.MONGO_PORT2;
+const mongoPort3 = process.env.MONGO_PORT3;
+const mongoDb = process.env.MONGO_DB;
+const mongoDbTest = process.env.DB_URI_TEST;
 
 const config = {
   app: {

@@ -5,6 +5,7 @@ function generateCoordinates() {
     .nearbyGPSCoordinate([41.4566583, 15.5343864], 3)
     .reverse();
 
+  // eslint-disable-next-line no-unused-vars
   return coords.reduce((pV, cV, cI) => {
     pV.push(parseFloat(cV));
     return pV;
@@ -13,8 +14,8 @@ function generateCoordinates() {
 
 // Generate fake json infos
 function generatePostFakeInfos() {
-  const newCoords = generateCoordinates(),
-    umbrellas = faker.datatype.number(200);
+  const newCoords = generateCoordinates();
+  const umbrellas = faker.datatype.number(200);
 
   return {
     _id: '617c09616263be33dccdf5a2',
@@ -30,8 +31,8 @@ function generatePostFakeInfos() {
 }
 
 function generatePutFakeInfos() {
-  const newCoords = generateCoordinates(),
-    umbrellas = faker.datatype.number(200);
+  const newCoords = generateCoordinates();
+  const umbrellas = faker.datatype.number(200);
 
   return {
     name: `Bagno ${faker.name.firstName()}`,
@@ -46,8 +47,8 @@ function generatePutFakeInfos() {
 }
 
 function generateMissingPostFakeInfos() {
-  const newCoords = generateCoordinates(),
-    umbrellas = faker.datatype.number(200);
+  const newCoords = generateCoordinates();
+  const umbrellas = faker.datatype.number(200);
 
   return {
     _id: '617c09616263be33dccdf5a2',
@@ -62,8 +63,8 @@ function generateMissingPostFakeInfos() {
 }
 
 function generateWrongPostFakeInfos() {
-  const newCoords = generateCoordinates(),
-    umbrellas = faker.datatype.number(200);
+  const newCoords = generateCoordinates();
+  const umbrellas = faker.datatype.number(200);
 
   return {
     _id: '617c09616263be33dccdf5a2',
@@ -79,8 +80,8 @@ function generateWrongPostFakeInfos() {
 }
 
 module.exports = {
-  generatePostFakeInfos: generatePostFakeInfos,
-  generatePutFakeInfos: generatePutFakeInfos,
-  generateMissingPostFakeInfos: generateMissingPostFakeInfos,
-  generateWrongPostFakeInfos: generateWrongPostFakeInfos,
+  generatePostFakeInfos,
+  generatePutFakeInfos,
+  generateMissingPostFakeInfos,
+  generateWrongPostFakeInfos,
 };

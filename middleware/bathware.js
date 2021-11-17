@@ -1,38 +1,25 @@
-const { Bath } = require('../models/bath'),
-  { clearCache } = require('redis_mongoose'),
-  config = require('../config/config'),
-  {
-    redis: { time },
-  } = config,
-  cacheOptions = { ttl: time },
-  sortUmbrellaOptions = { av_umbrellas: 1, name: 1 };
+const { clearCache } = require('redis_mongoose');
+const { Bath } = require('../models/bath');
+const {
+  redis: { time },
+} = require('../config/config');
+
+const cacheOptions = { ttl: time };
+const sortUmbrellaOptions = { av_umbrellas: 1, name: 1 };
 
 // ADD A BATH
-async function createBath(bath_data) {
+async function createBath(bathData) {
   try {
     clearCache();
-    return await Bath.create(bath_data);
+    return await Bath.create(bathData);
   } catch (e) {
     return false;
   }
 }
 
-/* SEARCH FOR BATHS USING CITY AND REGION INFOS
-async function getBathDispLoc(city, prov) {
-  return await Bath.find({
-    av_umbrellas: { $gt: 0 }, // av_umbrellas > 0
-    city: city,
-    province: prov,
-  })
-    .sort(sortUmbrellaOptions) // asc
-    .limit(20)
-    .lean()
-    .cache(cacheOptions);
-} */
-
 // SEARCH FOR BATHS USING COORDINATES
 async function getBathDispCoord(lat, long) {
-  return await Bath.find({
+  return Bath.find({
     location: {
       $near: {
         $geometry: { type: 'Point', coordinates: [long, lat] },
@@ -58,17 +45,14 @@ async function getBath(bid) {
 
 // RETURN A MANAGER'S BATHS LIST
 async function getBathGest(uid) {
-  return await Bath.find({ uid: uid })
-    .sort({ name: 1 })
-    .lean()
-    .cache(cacheOptions);
+  return Bath.find({ uid }).sort({ name: 1 }).lean().cache(cacheOptions);
 }
 
 // UPDATE BATH INFO
-async function updateBath(bid, bath_data) {
+async function updateBath(bid, bathData) {
   try {
     clearCache();
-    return await Bath.findByIdAndUpdate(bid, bath_data, {
+    return await Bath.findByIdAndUpdate(bid, bathData, {
       new: true,
     }).lean();
   } catch (e) {
@@ -101,12 +85,11 @@ async function removeBath(bid) {
 }
 
 module.exports = {
-  createBath: createBath,
-  //getBathDispLoc: getBathDispLoc,
-  getBathDispCoord: getBathDispCoord,
-  getBath: getBath,
-  getBathGest: getBathGest,
-  updateBath: updateBath,
-  updateUmbrellas: updateUmbrellas,
-  removeBath: removeBath,
+  createBath,
+  getBathDispCoord,
+  getBath,
+  getBathGest,
+  updateBath,
+  updateUmbrellas,
+  removeBath,
 };

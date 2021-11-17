@@ -1,17 +1,26 @@
-const mongoose = require('mongoose'),
-  { generatePostFakeInfos, generatePutFakeInfos } = require('../aux-functions'),
-  { createGeoIndex } = require('../../functions/functions'),
-  {
-    createBath,
-    getBathDispCoord,
-    getBath,
-    getBathGest,
-    updateBath,
-    updateUmbrellas,
-    removeBath,
-  } = require('../../middleware/bathware');
+/* eslint-disable no-undef */
+const mongoose = require('mongoose');
+const {
+  generatePostFakeInfos,
+  generatePutFakeInfos,
+} = require('../aux-functions');
+const { createGeoIndex } = require('../../functions/functions');
+const {
+  createBath,
+  getBathDispCoord,
+  getBath,
+  getBathGest,
+  updateBath,
+  updateUmbrellas,
+  removeBath,
+} = require('../../middleware/bathware');
 
-let newBath, bid, uid, lat, long, av_umbrellas;
+let newBath;
+let bid;
+let uid;
+let lat;
+let long;
+let avUmbrellas;
 
 beforeAll(() => {
   process.env.NODE_ENV = 'test';
@@ -23,7 +32,7 @@ beforeEach(() => {
   uid = 'CdGMzNaQZZW6ckRqcEeWxFhauRa2';
   lat = 41.4566583;
   long = 15.5343864;
-  av_umbrellas = 145;
+  avUmbrellas = 145;
 });
 afterAll(async () => {
   await mongoose.disconnect();
@@ -94,14 +103,14 @@ describe('MIDDLEWARES', () => {
     });
 
     test('updateUmbrellas', async () => {
-      const result = await updateUmbrellas(bid, av_umbrellas);
+      const result = await updateUmbrellas(bid, avUmbrellas);
       expect(result).not.toBeNull();
       expect(result).not.toBeFalsy();
     });
 
     test('updateUmbrellas Fail', async () => {
       bid = 'fakeBathId';
-      const result = await updateUmbrellas(bid, av_umbrellas);
+      const result = await updateUmbrellas(bid, avUmbrellas);
       expect(result).not.toBeNull();
       expect(result).toBeFalsy();
     });
