@@ -36,40 +36,48 @@ afterAll(async () => {
   await mongoose.disconnect();
 });
 
-const execPost = async () => {
+async function execPost() {
   const newBath = generatePostFakeInfos();
   return request(server)
     .post('/api/bath/')
     .set({ Authorization: auth })
     .send(newBath);
-};
+}
 
-const execGetBath = async () => request(server).get(`/api/bath/bath/${bid}`);
+async function execGetBath() {
+  return request(server).get(`/api/bath/bath/${bid}`);
+}
 
-const execGetGest = async () =>
-  request(server).get(`/api/bath/gest/${uid}`).set({ Authorization: auth });
+async function execGetGest() {
+  return request(server)
+    .get(`/api/bath/gest/${uid}`)
+    .set({ Authorization: auth });
+}
 
-const execGetCoord = async () =>
-  request(server).get(`/api/bath/disp/coord/${lat}/${long}`);
+async function execGetCoord() {
+  return request(server).get(`/api/bath/disp/coord/${lat}/${long}`);
+}
 
-const execPatch = async () =>
-  request(server)
+async function execPatch() {
+  return request(server)
     .patch(`/api/bath/${bid}`)
     .set({ Authorization: auth })
     .send(patchedData);
+}
 
-const execPut = async () => {
+async function execPut() {
   const updatedBath = generatePutFakeInfos();
   return request(server)
     .put(`/api/bath/${bid}`)
     .set({ Authorization: auth })
     .send(updatedBath);
-};
+}
 
-const execDelete = async () =>
-  request(server)
+async function execDelete() {
+  return request(server)
     .delete(`/api/bath/${bid}`)
     .set({ Authorization: `${auth}` });
+}
 
 describe('/', () => {
   it('should return 200 status code and welcome message', async () => {

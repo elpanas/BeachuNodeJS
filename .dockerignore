@@ -23,4 +23,6 @@
 #**/test
 **/.vscode
 **/.coverage
+.eslintrc.js
+.prettierrc.js
 README.md
