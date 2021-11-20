@@ -16,6 +16,7 @@ async function postResultManagement(res, result) {
   return res.status(400).send(errorMessage);
 }
 
+// eslint-disable-next-line consistent-return
 function jsonResultManagement(res, result) {
   if (typeof result !== 'undefined' && result != false) {
     if (result != null && Object.keys(result).length > 0)
@@ -23,9 +24,10 @@ function jsonResultManagement(res, result) {
   } else {
     return res.status(400).send();
   }
-  return 0;
+  // return 0;
 }
 
+// eslint-disable-next-line consistent-return
 function resultManagement(res, result) {
   if (typeof result !== 'undefined' && result) {
     if (Object.keys(result).length > 0) {
@@ -34,7 +36,7 @@ function resultManagement(res, result) {
   } else {
     return res.status(400).send();
   }
-  return 0;
+  // return 0;
 }
 
 module.exports = {

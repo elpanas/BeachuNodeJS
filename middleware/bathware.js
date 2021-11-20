@@ -1,4 +1,5 @@
 const { clearCache } = require('redis_mongoose');
+const Objectid = require('mongoose').Types.ObjectId;
 const { Bath } = require('../models/bath');
 const {
   redis: { time },
@@ -36,11 +37,10 @@ async function getBathDispCoord(lat, long) {
 
 // GET SINGLE BATH
 async function getBath(bid) {
-  try {
-    return await Bath.find({ _id: bid }).lean().cache(cacheOptions);
-  } catch (e) {
-    return false;
+  if (Objectid.isValid(bid)) {
+    return Bath.find({ _id: bid }).lean().cache(cacheOptions);
   }
+  return false;
 }
 
 // RETURN A MANAGER'S BATHS LIST
@@ -50,38 +50,35 @@ async function getBathGest(uid) {
 
 // UPDATE BATH INFO
 async function updateBath(bid, bathData) {
-  try {
+  if (Objectid.isValid(bid)) {
     clearCache();
-    return await Bath.findByIdAndUpdate(bid, bathData, {
+    return Bath.findByIdAndUpdate(bid, bathData, {
       new: true,
     }).lean();
-  } catch (e) {
-    return false;
   }
+  return false;
 }
 
 // UPDATE NUMBER OF AVAILABLE UMBRELLAS
 async function updateUmbrellas(bid, available) {
-  try {
+  if (Objectid.isValid(bid)) {
     clearCache();
-    return await Bath.findByIdAndUpdate(
+    return Bath.findByIdAndUpdate(
       bid,
       { av_umbrellas: available },
       { new: true }
     ).lean();
-  } catch (e) {
-    return false;
   }
+  return false;
 }
 
 // DELETE A BATH
 async function removeBath(bid) {
-  try {
+  if (Objectid.isValid(bid)) {
     clearCache();
-    return await Bath.findByIdAndDelete(bid).lean();
-  } catch (e) {
-    return false;
+    return Bath.findByIdAndDelete(bid).lean();
   }
+  return false;
 }
 
 module.exports = {

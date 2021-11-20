@@ -30,7 +30,7 @@ beforeEach(() => {
     av_umbrellas: 145,
   };
 });
-afterEach(() => server.close());
+afterEach(async () => server.close());
 afterAll(async () => {
   await mongoose.connection.db.dropDatabase();
   await mongoose.disconnect();
@@ -135,8 +135,8 @@ describe('/api/bath', () => {
         expect.stringContaining('json')
       );
     });
-    // FAIL
 
+    // FAIL
     it('/disp/coord/:lat/:long should fail because of no bathes', async () => {
       lat = 0.0;
       long = 0.0;

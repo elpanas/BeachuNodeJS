@@ -11,5 +11,5 @@ module.exports = {
   rules: {
     'global-require': 0,
   },
-  // plugins: ['prettier'],
+  plugins: ['prettier'],
 };
